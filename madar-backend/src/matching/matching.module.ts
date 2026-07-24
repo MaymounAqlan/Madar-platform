@@ -16,7 +16,7 @@ import { AuthModule } from '../auth/auth.module';
 import { PlatformSettingsModule } from '../platform-settings/platform-settings.module';
 import { MarketDataModule } from '../skills/market-data/market-data.module';
 
-import { getRedisConfig } from '../../config/redis.config';
+import { getRedisConfig } from '../config/redis.config';
 
 /**
  * FR-AI-014: Async Message Queue for Real-Time Matching
