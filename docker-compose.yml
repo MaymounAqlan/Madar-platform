@@ -1,0 +1,161 @@
+# MADAR Platform - Full Stack Docker Compose
+# Services: MongoDB, Redis, NestJS Backend, Python AI Engine, Nginx
+
+version: '3.8'
+
+services:
+  # MongoDB - Primary Database
+  mongodb:
+    image: mongo:7.0
+    container_name: madar-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASS}
+      MONGO_INITDB_DATABASE: madar
+    volumes:
+      - mongodb_data:/data/db
+      - ./scripts/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - madar-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis - Cache & Message Broker
+  redis:
+    image: redis:7-alpine
+    container_name: madar-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - madar-network
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # NestJS Backend API
+  backend:
+    build:
+      context: ./madar-backend
+      dockerfile: Dockerfile
+    container_name: madar-backend
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: 3001
+      MONGODB_URI: ${MONGODB_URI}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_ACCESS_EXPIRATION: ${JWT_ACCESS_EXPIRATION:-15m}
+      JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-7d}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      AI_SERVICE_URL: ${AI_SERVICE_URL:-http://ai-engine:8000}
+      BCRYPT_SALT_ROUNDS: ${BCRYPT_SALT_ROUNDS:-10}
+      SWAGGER_ENABLED: ${SWAGGER_ENABLED:-true}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      LINKEDIN_CLIENT_ID: ${LINKEDIN_CLIENT_ID:-}
+      LINKEDIN_CLIENT_SECRET: ${LINKEDIN_CLIENT_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - madar-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3001/api/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Python AI Engine
+  ai-engine:
+    build:
+      context: ./madar-ai
+      dockerfile: Dockerfile
+    container_name: madar-ai
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      EMBEDDING_MODEL: ${EMEDDING_MODEL:-all-MiniLM-L6-v2}
+      MATCH_SKILLS_WEIGHT: ${MATCH_SKILLS_WEIGHT:-0.6}
+      MATCH_EXPERIENCE_WEIGHT: ${MATCH_EXPERIENCE_WEIGHT:-0.2}
+      MATCH_PROJECTS_WEIGHT: ${MATCH_PROJECTS_WEIGHT:-0.1}
+      MATCH_SEMANTIC_WEIGHT: ${MATCH_SEMANTIC_WEIGHT:-0.1}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - ai_models_cache:/app/models_cache
+    networks:
+      - madar-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8000/api/ai/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 512M
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: madar-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./app/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+      - ai-engine
+    networks:
+      - madar-network
+
+volumes:
+  mongodb_data:
+    driver: local
+  redis_data:
+    driver: local
+  ai_models_cache:
+    driver: local
+
+networks:
+  madar-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

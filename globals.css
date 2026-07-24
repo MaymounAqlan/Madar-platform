@@ -1,0 +1,572 @@
+/**
+ * ============================================================================
+ * MADAR Platform — Global Styles
+ * ============================================================================
+ * An AI-powered career guidance platform with bilingual Arabic/English support
+ * and full RTL (Right-to-Left) layout implementation.
+ * ============================================================================
+ */
+
+/* --------------------------------------------------------------------------
+ * Tailwind CSS Directives
+ * -------------------------------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --------------------------------------------------------------------------
+ * CSS Custom Properties (Design Tokens)
+ * Aligned with the Tailwind config for consistency and runtime overrides.
+ * -------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    /* --- Primary Wise Green --- */
+    --wise-green: #9fe870;
+    --wise-green-hover: #8dd960;
+    --wise-green-light: #e8f5e0;
+
+    /* --- Backgrounds & Surfaces --- */
+    --background: #e8ebe6;
+    --surface: #ffffff;
+    --surface-elevated: #f5f6f4;
+
+    /* --- Text Colors --- */
+    --text-primary: #0e0f0c;
+    --text-secondary: #5a5c56;
+    --text-muted: #8a8c86;
+    --text-inverse: #ffffff;
+
+    /* --- Borders --- */
+    --border: #d1d4ce;
+    --border-focus: #9fe870;
+
+    /* --- Semantic Colors --- */
+    --error: #dc2626;
+    --error-light: #fef2f2;
+    --warning: #f59e0b;
+    --warning-light: #fffbeb;
+    --info: #3b82f6;
+    --info-light: #eff6ff;
+
+    /* --- Shadows (Elevation) --- */
+    --shadow-card: 0 2px 12px rgba(14, 15, 12, 0.06);
+    --shadow-elevated: 0 4px 24px rgba(14, 15, 12, 0.08);
+    --shadow-dropdown: 0 8px 32px rgba(14, 15, 12, 0.12);
+    --shadow-focus: 0 0 0 3px rgba(159, 232, 112, 0.3);
+
+    /* --- Spacing --- */
+    --spacing-section: 80px;
+    --spacing-section-lg: 120px;
+    --spacing-card-padding: 24px;
+    --spacing-card-gap: 20px;
+
+    /* --- Border Radius --- */
+    --radius-card: 24px;
+    --radius-button: 16px;
+    --radius-pill: 9999px;
+    --radius-input: 12px;
+
+    /* --- Transition Easing --- */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* --- Font Stacks --- */
+    --font-heading: "Wise Sans", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+
+    /* --- Base Font Size --- */
+    font-size: 16px;
+  }
+
+  /* ------------------------------------------------------------------------
+   * Dark Mode Overrides
+   * ------------------------------------------------------------------------ */
+  .dark {
+    --background: #0e0f0c;
+    --surface: #1a1b18;
+    --surface-elevated: #242522;
+    --text-primary: #f5f6f4;
+    --text-secondary: #a0a29c;
+    --text-muted: #6a6c66;
+    --border: #3a3c36;
+    --border-focus: #9fe870;
+
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.2);
+    --shadow-elevated: 0 4px 24px rgba(0, 0, 0, 0.3);
+    --shadow-dropdown: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Font Face Declarations
+ * Wise Sans — Primary heading font (self-hosted or CDN)
+ * Inter — Primary body font (Google Fonts / self-hosted)
+ * -------------------------------------------------------------------------- */
+
+/* Wise Sans — Heading Font */
+@font-face {
+  font-family: "Wise Sans";
+  src: local("Wise Sans"),
+    url("/fonts/WiseSans-Regular.woff2") format("woff2"),
+    url("/fonts/WiseSans-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Wise Sans";
+  src: local("Wise Sans"),
+    url("/fonts/WiseSans-Medium.woff2") format("woff2"),
+    url("/fonts/WiseSans-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Wise Sans";
+  src: local("Wise Sans"),
+    url("/fonts/WiseSans-Bold.woff2") format("woff2"),
+    url("/fonts/WiseSans-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Wise Sans";
+  src: local("Wise Sans"),
+    url("/fonts/WiseSans-Black.woff2") format("woff2"),
+    url("/fonts/WiseSans-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Inter — Body Font (Google Fonts fallback via @import is recommended in layout) */
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("/fonts/Inter-Regular.woff2") format("woff2"),
+    url("/fonts/Inter-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("/fonts/Inter-Medium.woff2") format("woff2"),
+    url("/fonts/Inter-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("/fonts/Inter-SemiBold.woff2") format("woff2"),
+    url("/fonts/Inter-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("/fonts/Inter-Bold.woff2") format("woff2"),
+    url("/fonts/Inter-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+ * Base Layer — Global resets and defaults
+ * -------------------------------------------------------------------------- */
+@layer base {
+  /**
+   * Smooth scrolling for the entire document.
+   * Respects user preferences for reduced motion.
+   */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-wrap: break-word;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /**
+   * Respect user's motion preferences.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  /**
+   * Body defaults — use the design system's background and text colors.
+   * Font stack uses Inter as the primary body font.
+   */
+  body {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.875rem; /* 14px / body-base */
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--background);
+    min-height: 100vh;
+    direction: ltr; /* Default to LTR; toggled via [dir="rtl"] */
+  }
+
+  /**
+   * Heading font family override — use Wise Sans for all heading levels.
+   */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    color: var(--text-primary);
+    text-wrap: balance;
+  }
+
+  /**
+   * Selection color — Wise Green for brand consistency.
+   */
+  ::selection {
+    background-color: var(--wise-green);
+    color: var(--text-primary);
+  }
+
+  /**
+   * Placeholder text color — matches the muted text token.
+   */
+  ::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
+  }
+
+  /**
+   * Focus-visible outline — uses the Wise Green focus ring.
+   */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+    border-radius: var(--radius-input);
+  }
+
+  /**
+   * Default anchor tag styling.
+   */
+  a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms var(--ease-smooth);
+  }
+
+  /**
+   * Default image behavior.
+   */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /**
+   * Default button reset.
+   */
+  button {
+    cursor: pointer;
+    font-family: inherit;
+    border: none;
+    background: none;
+    padding: 0;
+  }
+
+  /**
+   * Input reset for consistent cross-browser styling.
+   */
+  input,
+  textarea,
+  select {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+
+  /**
+   * Textarea resize constraint.
+   */
+  textarea {
+    resize: vertical;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * RTL (Right-to-Left) Base Styles
+ * Applied when dir="rtl" is set on the html element.
+ * -------------------------------------------------------------------------- */
+@layer base {
+  /**
+   * When RTL is active, switch the document direction.
+   * All logical property utilities (ms-, me-, ps-, pe-) will adapt automatically.
+   */
+  html[dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  html[dir="rtl"] body {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /**
+   * Flip horizontal transforms and directional animations for RTL.
+   */
+  html[dir="rtl"] .rtl\:flip-h {
+    transform: scaleX(-1);
+  }
+
+  /**
+   * Ensure icons with directional meaning are mirrored in RTL.
+   * Apply this utility class to arrow, chevron, and directional icons.
+   */
+  html[dir="rtl"] .rtl\:icon-flip {
+    transform: scaleX(-1);
+  }
+
+  /**
+   * Flip margins/paddings for float-based layouts (legacy support).
+   * Prefer logical properties (margin-inline-start, padding-inline-end, etc.)
+   */
+  html[dir="rtl"] .rtl\:ml-auto {
+    margin-left: unset;
+    margin-right: auto;
+  }
+
+  html[dir="rtl"] .rtl\:mr-auto {
+    margin-right: unset;
+    margin-left: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Custom Scrollbar Styling
+ * Clean, minimal scrollbar matching the MADAR aesthetic.
+ * -------------------------------------------------------------------------- */
+@layer base {
+  /**
+   * WebKit-based browsers (Chrome, Safari, Edge).
+   */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
+
+  /**
+   * Firefox scrollbar styling (limited support).
+   */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Utility Layer — Additional reusable utilities
+ * -------------------------------------------------------------------------- */
+@layer utilities {
+  /**
+   * Text balance — improves line wrapping for headings (modern browsers).
+   */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /**
+   * Text pretty — prevents orphans on the last line.
+   */
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /**
+   * Gradient text — Wise Green gradient for accent text.
+   */
+  .text-gradient-green {
+    background: linear-gradient(135deg, #9fe870 0%, #6bc942 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /**
+   * Glassmorphism card effect — frosted glass overlay.
+   */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .dark .glass {
+    background: rgba(26, 27, 24, 0.7);
+  }
+
+  /**
+   * Shimmer loading effect — animated gradient sweep.
+   */
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--surface) 0%,
+      rgba(159, 232, 112, 0.08) 50%,
+      var(--surface) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+  }
+
+  /**
+   * No-scrollbar utility — hides scrollbars while keeping scroll functionality.
+   */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /**
+   * Line clamp utilities for multi-line text truncation.
+   */
+  .line-clamp-1 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  /**
+   * Hardware acceleration for smooth animations.
+   */
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  /**
+   * Hide content visually but keep accessible for screen readers.
+   */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /**
+   * Transition utility for Framer Motion compatibility.
+   */
+  .transition-motion {
+    transition-property: transform, opacity, background-color, color, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Shimmer Keyframe Definition
+ * -------------------------------------------------------------------------- */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+ * Print Styles
+ * Minimal print stylesheet for career reports and documents.
+ * -------------------------------------------------------------------------- */
+@media print {
+  html {
+    background: white !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+
+  /* Ensure cards have visible borders when printed */
+  .card,
+  .card-elevated {
+    border: 1px solid #d1d4ce !important;
+    box-shadow: none !important;
+  }
+}

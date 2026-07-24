@@ -1,0 +1,71 @@
+.login-geometric-shell {
+  border-radius: 12px;
+}
+
+.login-cut-control {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% 100%,
+    12px 100%,
+    0 calc(100% - 12px)
+  );
+}
+
+.login-geometric-panel {
+  isolation: isolate;
+}
+
+.login-geometric-panel-rtl {
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+}
+
+.login-geometric-panel-ltr {
+  clip-path: polygon(30px 0, 100% 0, 100% 100%, 30px 100%, 0 calc(100% - 30px), 0 30px);
+}
+
+.login-geometric-mark {
+  top: 0;
+  width: 210px;
+  height: 150px;
+  background: #9fe870;
+  opacity: 0.08;
+  clip-path: polygon(30% 0, 100% 0, 100% 70%, 70% 100%, 0 100%, 0 30%);
+}
+
+[dir='rtl'] .login-geometric-mark {
+  left: 0;
+}
+
+[dir='ltr'] .login-geometric-mark {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.login-geometric-lines {
+  top: 168px;
+  width: 310px;
+  height: 220px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  opacity: 0.9;
+  clip-path: polygon(0 0, calc(100% - 44px) 0, 100% 44px, 100% 100%, 44px 100%, 0 calc(100% - 44px));
+}
+
+[dir='rtl'] .login-geometric-lines {
+  left: -72px;
+  border-right: 1px solid rgba(159, 232, 112, 0.16);
+}
+
+[dir='ltr'] .login-geometric-lines {
+  right: -72px;
+  border-left: 1px solid rgba(159, 232, 112, 0.16);
+  transform: scaleX(-1);
+}
+
+@media (max-width: 1023px) {
+  .login-geometric-panel {
+    clip-path: none;
+  }
+}

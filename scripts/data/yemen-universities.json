@@ -1,0 +1,298 @@
+[
+  {
+    "nameAr": "جامعة صنعاء",
+    "nameEn": "Sana'a University",
+    "slug": "sanaa-university",
+    "aliases": ["جامعه صنعاء", "Sanaa University"],
+    "institutionType": "public_university",
+    "ownership": "public",
+    "governorate": "صنعاء",
+    "city": "صنعاء",
+    "website": "https://su.edu.ye/",
+    "officialEmail": null,
+    "phoneNumbers": [],
+    "logoSourceUrl": "https://caqa.gov.ye/files/topics/16456232063829.png?w=200&h=200",
+    "sourceUrls": ["https://caqa.gov.ye/ar", "https://su.edu.ye/"],
+    "verificationStatus": "verified",
+    "accreditationStatus": "accredited",
+    "dataSource": "yemen-universities-seed-v1",
+    "isSeedData": true,
+    "isDemo": false,
+    "isActive": true,
+    "sortOrder": 1,
+    "colleges": [
+      { "nameAr": "كلية الحاسوب وتكنولوجيا المعلومات", "nameEn": "Faculty of Computer and Information Technology", "slug": "faculty-computer-information-technology", "website": "https://su.edu.ye/fcit/", "sourceUrls": ["https://su.edu.ye/fcit/العربية-الرئيسية/"], "verificationStatus": "verified", "departments": [
+        { "nameAr": "قسم علوم الحاسوب", "nameEn": "Computer Science Department", "slug": "computer-science", "sourceUrls": ["https://su.edu.ye/fcit/العربية-الرئيسية/"], "verificationStatus": "verified", "majors": [
+          { "nameAr": "بكالوريوس علوم الحاسوب", "nameEn": "Bachelor of Computer Science", "slug": "bsc-computer-science", "degreeType": "bachelor", "sourceUrls": ["https://su.edu.ye/fcit/en/bachelor/computer-science-bachelor/"], "verificationStatus": "verified" }
+        ]},
+        { "nameAr": "قسم تكنولوجيا المعلومات", "nameEn": "Information Technology Department", "slug": "information-technology", "sourceUrls": ["https://su.edu.ye/fcit/العربية-الرئيسية/"], "verificationStatus": "verified", "majors": [
+          { "nameAr": "بكالوريوس تكنولوجيا المعلومات", "nameEn": "Bachelor of Information Technology", "slug": "bsc-information-technology", "degreeType": "bachelor", "sourceUrls": ["https://su.edu.ye/fcit/en/home-en/"], "verificationStatus": "verified" }
+        ]},
+        { "nameAr": "قسم نظم المعلومات", "nameEn": "Information Systems Department", "slug": "information-systems", "sourceUrls": ["https://su.edu.ye/fcit/العربية-الرئيسية/"], "verificationStatus": "verified", "majors": [] }
+      ]},
+      { "nameAr": "كلية التجارة والاقتصاد", "slug": "faculty-commerce-economics", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية الهندسة", "nameEn": "Faculty of Engineering", "slug": "faculty-engineering", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [
+        { "nameAr": "قسم الهندسة الكهربائية", "nameEn": "Electrical Engineering Department", "slug": "electrical-engineering", "sourceUrls": ["https://su.edu.ye/ce/wp-content/uploads/sites/11/2021/09/Computer-Prog._Final-Oct.-2020.pdf"], "verificationStatus": "verified", "majors": [
+          { "nameAr": "بكالوريوس هندسة الحاسوب والتحكم", "nameEn": "Bachelor of Computer Engineering and Control", "slug": "bsc-computer-engineering-control", "degreeType": "bachelor", "sourceUrls": ["https://su.edu.ye/ce/wp-content/uploads/sites/11/2021/09/Computer-Prog._Final-Oct.-2020.pdf"], "verificationStatus": "verified" }
+        ]}
+      ]},
+      { "nameAr": "كلية العلوم", "nameEn": "Faculty of Science", "slug": "faculty-science", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية اللغات", "slug": "faculty-languages", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية الآداب والعلوم الإنسانية", "slug": "faculty-arts-humanities", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية الإعلام", "slug": "faculty-media", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية الزراعة", "slug": "faculty-agriculture", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية التربية", "slug": "faculty-education", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية البترول والموارد الطبيعية", "slug": "faculty-petroleum-natural-resources", "sourceUrls": ["https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "departments": [] }
+    ]
+  },
+  {
+    "nameAr": "جامعة عدن", "nameEn": "University of Aden", "slug": "aden-university", "aliases": ["Aden University"],
+    "institutionType": "public_university", "ownership": "public", "governorate": "عدن", "city": "عدن", "website": "https://www.aden-univ.net/", "officialEmail": null, "phoneNumbers": [],
+    "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%B9%D8%AF%D9%86.png",
+    "sourceUrls": ["https://www.moheye.net/public-universities/", "https://www.aden-univ.net/"], "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 2,
+    "colleges": [
+      { "nameAr": "كلية الهندسة", "nameEn": "Faculty of Engineering", "slug": "faculty-engineering", "website": "https://www.aden-univ.net/", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified", "departments": [
+        { "nameAr": "قسم الهندسة المدنية", "nameEn": "Civil Engineering Department", "slug": "civil-engineering", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified", "majors": [{ "nameAr": "بكالوريوس الهندسة المدنية", "nameEn": "Bachelor of Civil Engineering", "slug": "bsc-civil-engineering", "degreeType": "bachelor", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified" }] },
+        { "nameAr": "قسم الهندسة الميكانيكية", "nameEn": "Mechanical Engineering Department", "slug": "mechanical-engineering", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified", "majors": [] },
+        { "nameAr": "قسم الهندسة الكهربائية", "nameEn": "Electrical Engineering Department", "slug": "electrical-engineering", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified", "majors": [] },
+        { "nameAr": "قسم هندسة الحاسوب", "nameEn": "Computer Engineering Department", "slug": "computer-engineering", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified", "majors": [] },
+        { "nameAr": "قسم تكنولوجيا المعلومات", "nameEn": "Information Technology Department", "slug": "information-technology", "sourceUrls": ["https://adc.aden-univ.net/Studyplans/Faculty_of_Engineering.htm"], "verificationStatus": "verified", "majors": [] }
+      ]}
+    ]
+  },
+  {
+    "nameAr": "جامعة حضرموت", "nameEn": "Hadhramout University", "slug": "hadhramout-university", "aliases": ["جامعةحضرموت"],
+    "institutionType": "public_university", "ownership": "public", "governorate": "حضرموت", "city": "المكلا", "website": "https://hu.edu.ye/", "officialEmail": null, "phoneNumbers": [],
+    "logoSourceUrl": "https://moheye.net/wp-content/uploads/2024/02/%D8%B4%D8%B9%D8%A7%D8%B1-%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%AD%D8%B6%D8%B1%D9%85%D9%88%D8%AA.jpg",
+    "sourceUrls": ["https://www.moheye.net/public-universities/", "https://hu.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 3,
+    "colleges": [
+      { "nameAr": "كلية الحاسبات وتكنولوجيا المعلومات", "nameEn": "Faculty of Computers and Information Technology", "slug": "faculty-computers-information-technology", "website": "https://hu.edu.ye/compfac/en/about/", "sourceUrls": ["https://hu.edu.ye/compfac/en/about/"], "verificationStatus": "verified", "departments": [
+        { "nameAr": "قسم علوم الحاسوب", "nameEn": "Computer Science Department", "slug": "computer-science", "sourceUrls": ["https://hu.edu.ye/compfac/en/about/"], "verificationStatus": "verified", "majors": [{ "nameAr": "بكالوريوس علوم الحاسوب", "nameEn": "Bachelor of Computer Science", "slug": "bsc-computer-science", "degreeType": "bachelor", "sourceUrls": ["https://hu.edu.ye/compfac/en/about/"], "verificationStatus": "verified" }] },
+        { "nameAr": "قسم تكنولوجيا المعلومات", "nameEn": "Information Technology Department", "slug": "information-technology", "sourceUrls": ["https://hu.edu.ye/compfac/en/about/"], "verificationStatus": "verified", "majors": [{ "nameAr": "بكالوريوس تكنولوجيا المعلومات", "nameEn": "Bachelor of Information Technology", "slug": "bsc-information-technology", "degreeType": "bachelor", "sourceUrls": ["https://hu.edu.ye/compfac/en/about/"], "verificationStatus": "verified" }] }
+      ]},
+      { "nameAr": "كلية الطب والعلوم الصحية", "slug": "faculty-medicine-health-sciences", "sourceUrls": ["https://hu.edu.ye/en/about/"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية الهندسة والبترول", "slug": "faculty-engineering-petroleum", "sourceUrls": ["https://hu.edu.ye/en/about/"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية العلوم الإدارية", "slug": "faculty-administrative-sciences", "sourceUrls": ["https://hu.edu.ye/en/about/"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية العلوم", "slug": "faculty-science", "sourceUrls": ["https://hu.edu.ye/en/about/"], "verificationStatus": "verified", "departments": [] },
+      { "nameAr": "كلية التمريض", "slug": "faculty-nursing", "sourceUrls": ["https://hu.edu.ye/en/about/"], "verificationStatus": "verified", "departments": [] }
+    ]
+  },
+  {
+    "nameAr": "جامعة تعز", "nameEn": "Taiz University", "slug": "taiz-university", "aliases": ["تعز", "Taiz", "Taizz University"],
+    "institutionType": "public_university", "ownership": "public", "governorate": "تعز", "city": "تعز", "website": "https://taiz.edu.ye/", "officialEmail": null, "phoneNumbers": [],
+    "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%AA%D8%B9%D8%B2.png",
+    "sourceUrls": ["https://taiz.edu.ye/", "https://taiz.edu.ye/control/uploads/2027TaizUniversityTaksos.pdf", "https://www.moheye.net/public-universities/"],
+    "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 4,
+    "colleges": [
+      {
+        "nameAr": "كلية الطب والعلوم الصحية", "slug": "faculty-medicine-health-sciences", "website": "https://taiz.edu.ye/fmhs/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم الطب العام والجراحة", "slug": "medicine-surgery", "degreeType": "bachelor" },
+          { "nameAr": "قسم طب وجراحة الفم والأسنان", "slug": "oral-dental-medicine-surgery", "degreeType": "bachelor" },
+          { "nameAr": "قسم الصيدلة", "slug": "pharmacy", "degreeType": "bachelor" },
+          { "nameAr": "قسم المختبرات الطبية", "slug": "medical-laboratories", "degreeType": "bachelor" },
+          { "nameAr": "قسم التمريض العالي", "slug": "higher-nursing", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية السعيد للهندسة وتقنية المعلومات", "slug": "al-saeed-faculty-engineering-information-technology", "website": "https://taiz.edu.ye/feit/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم هندسة الاتصالات والمعلومات", "slug": "communications-information-engineering", "degreeType": "bachelor" },
+          { "nameAr": "قسم الهندسة الصناعية ونظم التصنيع", "slug": "industrial-engineering-manufacturing-systems", "degreeType": "bachelor" },
+          { "nameAr": "قسم هندسة تكنولوجيا المعلومات", "slug": "information-technology-engineering", "degreeType": "bachelor" },
+          { "nameAr": "قسم هندسة الميكاترونيات والروبوتات", "slug": "mechatronics-robotics-engineering", "degreeType": "bachelor" },
+          { "nameAr": "قسم هندسة البرمجيات", "slug": "software-engineering", "degreeType": "bachelor" },
+          { "nameAr": "قسم هندسة شبكات الحاسوب والأمن السيبراني", "slug": "computer-networks-cybersecurity-engineering", "degreeType": "bachelor" },
+          { "nameAr": "قسم الذكاء الاصطناعي وعلم البيانات", "slug": "artificial-intelligence-data-science", "degreeType": "bachelor" },
+          { "nameAr": "قسم هندسة الطاقة المتجددة", "slug": "renewable-energy-engineering", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية العلوم التطبيقية", "slug": "faculty-applied-sciences", "website": "https://taiz.edu.ye/fas/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم علوم الحاسوب", "slug": "computer-science", "degreeType": "bachelor" },
+          { "nameAr": "قسم الكيمياء الصناعية", "slug": "industrial-chemistry", "degreeType": "bachelor" },
+          { "nameAr": "قسم الأمن السيبراني", "slug": "cybersecurity", "degreeType": "bachelor" },
+          { "nameAr": "قسم الذكاء الاصطناعي", "slug": "artificial-intelligence", "degreeType": "bachelor" },
+          { "nameAr": "قسم الأحياء الدقيقة", "slug": "microbiology", "degreeType": "bachelor" },
+          { "nameAr": "قسم الجيولوجيا", "slug": "geology", "degreeType": "bachelor" },
+          { "nameAr": "قسم الفيزياء", "slug": "physics", "degreeType": "bachelor" },
+          { "nameAr": "قسم الرياضيات", "slug": "mathematics", "degreeType": "bachelor" },
+          { "nameAr": "قسم الكيمياء العامة", "slug": "general-chemistry", "degreeType": "bachelor" },
+          { "nameAr": "قسم العلوم البيولوجية", "slug": "biological-sciences", "degreeType": "bachelor" },
+          { "nameAr": "قسم النفط والتعدين", "slug": "petroleum-mining", "degreeType": "bachelor" },
+          { "nameAr": "قسم الفيزياء الطبية", "slug": "medical-physics", "degreeType": "bachelor" },
+          { "nameAr": "قسم الرياضيات والحاسوب", "slug": "mathematics-computer", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية العلوم الإدارية", "slug": "faculty-administrative-sciences", "website": "https://taiz.edu.ye/fba/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم المحاسبة", "slug": "accounting", "degreeType": "bachelor" },
+          { "nameAr": "قسم إدارة الأعمال", "slug": "business-administration", "degreeType": "bachelor" },
+          { "nameAr": "قسم العلوم المالية والمصرفية", "slug": "finance-banking", "degreeType": "bachelor" },
+          { "nameAr": "قسم التسويق", "slug": "marketing", "degreeType": "bachelor" },
+          { "nameAr": "قسم الاقتصاد", "slug": "economics", "degreeType": "bachelor" },
+          { "nameAr": "قسم علوم البيانات وتكنولوجيا المعلومات", "slug": "data-science-information-technology", "degreeType": "bachelor" },
+          { "nameAr": "قسم السياحة وإدارة الفنادق", "slug": "tourism-hotel-management", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية الآداب", "slug": "faculty-arts", "website": "https://taiz.edu.ye/fass/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم اللغة الإنجليزية وآدابها", "slug": "english-language-literature", "degreeType": "licentiate" },
+          { "nameAr": "قسم الإعلام وعلوم الاتصال", "slug": "media-communication-sciences", "degreeType": "licentiate" },
+          { "nameAr": "قسم الفنون الجميلة - فنون تشكيلية", "slug": "fine-arts-visual-arts", "degreeType": "licentiate" },
+          { "nameAr": "قسم الفنون الجميلة - جرافيكس", "slug": "fine-arts-graphics", "degreeType": "licentiate" },
+          { "nameAr": "قسم اللغة العربية", "slug": "arabic-language", "degreeType": "licentiate" },
+          { "nameAr": "قسم الدراسات الإسلامية", "slug": "islamic-studies", "degreeType": "licentiate" },
+          { "nameAr": "قسم التاريخ والعلوم السياسية", "slug": "history-political-science", "degreeType": "licentiate" },
+          { "nameAr": "قسم الجغرافيا ونظم المعلومات الجغرافية", "slug": "geography-geographic-information-systems", "degreeType": "licentiate" },
+          { "nameAr": "قسم علم الاجتماع والخدمة الاجتماعية", "slug": "sociology-social-work", "degreeType": "licentiate" },
+          { "nameAr": "قسم اللغة الفرنسية والعلاقات الدولية", "slug": "french-language-international-relations", "degreeType": "licentiate" },
+          { "nameAr": "قسم علم النفس العام", "slug": "general-psychology", "degreeType": "licentiate" }
+        ]
+      },
+      {
+        "nameAr": "كلية التربية", "slug": "faculty-education", "website": "https://taiz.edu.ye/fe/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم الدراسات العربية", "slug": "arabic-studies", "degreeType": "bachelor" },
+          { "nameAr": "قسم الدراسات الإنجليزية", "slug": "english-studies", "degreeType": "bachelor" },
+          { "nameAr": "قسم علوم القرآن", "slug": "quranic-sciences", "degreeType": "bachelor" },
+          { "nameAr": "قسم علوم الحياة", "slug": "life-sciences", "degreeType": "bachelor" },
+          { "nameAr": "قسم الكيمياء", "slug": "chemistry", "degreeType": "bachelor" },
+          { "nameAr": "قسم الفيزياء", "slug": "physics", "degreeType": "bachelor" },
+          { "nameAr": "قسم الرياضيات", "slug": "mathematics", "degreeType": "bachelor" },
+          { "nameAr": "قسم رياض الأطفال", "slug": "kindergarten", "degreeType": "bachelor" },
+          { "nameAr": "قسم الإرشاد النفسي", "slug": "psychological-counseling", "degreeType": "bachelor" },
+          { "nameAr": "قسم التربية الخاصة", "slug": "special-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم معلم الصف - تعليم أساسي", "slug": "classroom-teacher-basic-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم الدراسات الإنجليزية - تعليم أساسي", "slug": "english-studies-basic-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم علوم القرآن - تعليم أساسي", "slug": "quranic-sciences-basic-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم العلوم - تعليم أساسي", "slug": "sciences-basic-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم الرياضيات - تعليم أساسي", "slug": "mathematics-basic-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم التربية الرياضية والبدنية", "slug": "physical-sports-education", "degreeType": "bachelor" },
+          { "nameAr": "قسم تقنية المعلومات التربوية", "slug": "educational-information-technology", "degreeType": "bachelor" },
+          { "nameAr": "قسم الوسائط المتعددة والجرافيكس", "slug": "multimedia-graphics", "degreeType": "bachelor" },
+          { "nameAr": "قسم الإعلام التربوي الرقمي", "slug": "digital-educational-media", "degreeType": "bachelor" },
+          { "nameAr": "قسم المسرح التربوي", "slug": "educational-theatre", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية الحقوق", "slug": "faculty-law", "website": "https://taiz.edu.ye/flr/", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم الحقوق العام", "slug": "general-law", "degreeType": "licentiate" }
+        ]
+      },
+      {
+        "nameAr": "كلية اللغات والترجمة", "slug": "faculty-languages-translation", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم اللغة الإنجليزية - ترجمة", "slug": "english-translation", "degreeType": "bachelor" },
+          { "nameAr": "قسم اللغة الفرنسية - ترجمة", "slug": "french-translation", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية التربية بالتربة", "slug": "faculty-education-al-turbah", "city": "التربة", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم الدراسات العربية", "slug": "arabic-studies", "degreeType": "bachelor" },
+          { "nameAr": "قسم الدراسات الإنجليزية", "slug": "english-studies", "degreeType": "bachelor" },
+          { "nameAr": "قسم علوم القرآن", "slug": "quranic-sciences", "degreeType": "bachelor" },
+          { "nameAr": "قسم الفيزياء", "slug": "physics", "degreeType": "bachelor" },
+          { "nameAr": "قسم الرياضيات", "slug": "mathematics", "degreeType": "bachelor" },
+          { "nameAr": "قسم معلم الحاسوب", "slug": "computer-teacher", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية الآداب بالتربة", "slug": "faculty-arts-al-turbah", "city": "التربة", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم الدراسات الإسلامية", "slug": "islamic-studies", "degreeType": "licentiate" },
+          { "nameAr": "قسم اللغة الإنجليزية وآدابها", "slug": "english-language-literature", "degreeType": "licentiate" },
+          { "nameAr": "قسم اللغة الإنجليزية - ترجمة", "slug": "english-translation", "degreeType": "licentiate" }
+        ]
+      },
+      {
+        "nameAr": "كلية الإدارة ونظم المعلومات بالتربة", "slug": "faculty-administration-information-systems-al-turbah", "city": "التربة", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم المحاسبة", "slug": "accounting", "degreeType": "bachelor" },
+          { "nameAr": "قسم إدارة الأعمال", "slug": "business-administration", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية العلوم الطبية والصحية بالتربة", "slug": "faculty-medical-health-sciences-al-turbah", "city": "التربة", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم الصيدلة", "slug": "pharmacy", "degreeType": "bachelor" },
+          { "nameAr": "قسم المختبرات الطبية", "slug": "medical-laboratories", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية الحاسبات وتقنية المعلومات بالتربة", "slug": "faculty-computers-information-technology-al-turbah", "city": "التربة", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم تكنولوجيا المعلومات", "slug": "information-technology", "degreeType": "bachelor" },
+          { "nameAr": "قسم الأمن السيبراني", "slug": "cybersecurity", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية التربية بالمخلاف", "slug": "faculty-education-al-mikhlaf", "city": "المخلاف", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم علوم القرآن", "slug": "quranic-sciences", "degreeType": "bachelor" },
+          { "nameAr": "قسم الدراسات الإنجليزية", "slug": "english-studies", "degreeType": "bachelor" },
+          { "nameAr": "قسم رياض الأطفال", "slug": "kindergarten", "degreeType": "bachelor" },
+          { "nameAr": "قسم الرياضيات", "slug": "mathematics", "degreeType": "bachelor" }
+        ]
+      },
+      {
+        "nameAr": "كلية التعليم عن بعد", "slug": "faculty-distance-education", "verificationStatus": "verified",
+        "departments": [
+          { "nameAr": "قسم إدارة الأعمال", "slug": "business-administration", "degreeType": "bachelor" },
+          { "nameAr": "قسم الإعلام وعلوم الاتصال", "slug": "media-communication-sciences", "degreeType": "bachelor" },
+          { "nameAr": "قسم التسويق", "slug": "marketing", "degreeType": "bachelor" },
+          { "nameAr": "قسم تقنية المعلومات الإلكترونية", "slug": "electronic-information-technology", "degreeType": "bachelor" },
+          { "nameAr": "قسم تكنولوجيا التعليم", "slug": "educational-technology", "degreeType": "bachelor" },
+          { "nameAr": "قسم الحقوق - قانون", "slug": "law", "degreeType": "bachelor" },
+          { "nameAr": "قسم الدراسات الإنجليزية", "slug": "english-studies", "degreeType": "bachelor" },
+          { "nameAr": "قسم رياض الأطفال", "slug": "kindergarten", "degreeType": "bachelor" },
+          { "nameAr": "قسم المحاسبة", "slug": "accounting", "degreeType": "bachelor" },
+          { "nameAr": "قسم نظم المعلومات", "slug": "information-systems", "degreeType": "bachelor" }
+        ]
+      }
+    ]
+  },
+  { "nameAr": "جامعة إقليم سبأ", "nameEn": "University of Saba Region", "slug": "saba-region-university", "institutionType": "public_university", "ownership": "public", "governorate": "مأرب", "city": "مأرب", "website": "http://www.usr.ac/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": null, "sourceUrls": ["https://www.moheye.net/public-universities/", "http://www.usr.ac/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 5, "colleges": [] },
+  { "nameAr": "جامعة سيئون", "nameEn": "Seiyun University", "slug": "seiyun-university", "aliases": ["جامعة سيؤن"], "institutionType": "public_university", "ownership": "public", "governorate": "حضرموت", "city": "سيئون", "website": "http://seiyunu.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%B3%D9%8A%D8%A6%D9%88%D9%86.jpg", "sourceUrls": ["https://www.moheye.net/public-universities/", "http://seiyunu.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 6, "colleges": [] },
+  { "nameAr": "جامعة شبوة", "nameEn": "Shabwah University", "slug": "shabwah-university", "institutionType": "public_university", "ownership": "public", "governorate": "شبوة", "city": "عتق", "website": "https://shu.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%B4%D8%A8%D9%88%D8%A9.jpg", "sourceUrls": ["https://www.moheye.net/public-universities/", "https://shu.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 7, "colleges": [] },
+  { "nameAr": "جامعة أبين", "nameEn": "Abyan University", "slug": "abyan-university", "institutionType": "public_university", "ownership": "public", "governorate": "أبين", "city": "زنجبار", "website": "https://www.abyan-univ.net/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%A3%D8%A8%D9%8A%D9%86.jpg", "sourceUrls": ["https://www.moheye.net/public-universities/", "https://www.abyan-univ.net/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 8, "colleges": [] },
+  { "nameAr": "جامعة لحج", "nameEn": "Lahj University", "slug": "lahj-university", "institutionType": "public_university", "ownership": "public", "governorate": "لحج", "city": "الحوطة", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2022/04/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D9%84%D8%AD%D8%AC.jpg", "sourceUrls": ["https://www.moheye.net/public-universities/"], "verificationStatus": "partially_verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 9, "colleges": [] },
+  { "nameAr": "جامعة المهرة", "nameEn": "Al Mahrah University", "slug": "al-mahrah-university", "institutionType": "public_university", "ownership": "public", "governorate": "المهرة", "city": "الغيضة", "website": "https://mhru.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2023/05/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-%D8%A7%D9%84%D9%85%D9%87%D8%B1%D8%A9.png", "sourceUrls": ["https://www.moheye.net/public-universities/", "https://mhru.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 10, "colleges": [] },
+  { "nameAr": "جامعة إب", "nameEn": "Ibb University", "slug": "ibb-university", "institutionType": "public_university", "ownership": "public", "governorate": "إب", "city": "إب", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455904468803.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 11, "colleges": [] },
+  { "nameAr": "جامعة الحديدة", "nameEn": "Hodeidah University", "slug": "hodeidah-university", "institutionType": "public_university", "ownership": "public", "governorate": "الحديدة", "city": "الحديدة", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455904174131.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 12, "colleges": [] },
+  { "nameAr": "جامعة ذمار", "nameEn": "Thamar University", "slug": "thamar-university", "aliases": ["Dhamar University"], "institutionType": "public_university", "ownership": "public", "governorate": "ذمار", "city": "ذمار", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455903311833.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 13, "colleges": [] },
+  { "nameAr": "جامعة عمران", "nameEn": "Amran University", "slug": "amran-university", "institutionType": "public_university", "ownership": "public", "governorate": "عمران", "city": "عمران", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455902748353.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 14, "colleges": [] },
+  { "nameAr": "جامعة حجة", "nameEn": "Hajjah University", "slug": "hajjah-university", "institutionType": "public_university", "ownership": "public", "governorate": "حجة", "city": "حجة", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455902355590.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 15, "colleges": [] },
+  { "nameAr": "جامعة البيضاء", "nameEn": "Al-Baydha University", "slug": "al-baydha-university", "institutionType": "public_university", "ownership": "public", "governorate": "البيضاء", "city": "البيضاء", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455901641131.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 16, "colleges": [] },
+  { "nameAr": "جامعة صعدة", "nameEn": "Saada University", "slug": "saada-university", "institutionType": "public_university", "ownership": "public", "governorate": "صعدة", "city": "صعدة", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455901372184.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 17, "colleges": [] },
+  { "nameAr": "جامعة 21 سبتمبر للعلوم الطبية والتطبيقية", "nameEn": "21 September University", "slug": "21-september-university", "aliases": ["جامعة 21 سبتمبر"], "institutionType": "public_university", "ownership": "public", "governorate": "صنعاء", "city": "صنعاء", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455901154270.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar", "https://www.caqa.gov.ye/en/accreditation/accredited-programs/%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%B5%D9%8A%D8%AF%D9%84%D8%A9-%D8%A7%D9%84%D8%B3%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9-%D8%AC%D8%A7%D9%85%D8%B9%D8%A9-21-%D8%B3%D8%A8%D8%AA%D9%85%D8%A8%D8%B1"], "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 18, "colleges": [] },
+  { "nameAr": "جامعة جبلة للعلوم الطبية والصحية", "slug": "jiblah-university-medical-health-sciences", "institutionType": "public_university", "ownership": "public", "governorate": "إب", "city": "جبلة", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455900832864.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 19, "colleges": [] },
+
+  { "nameAr": "جامعة العلوم والتكنولوجيا", "nameEn": "University of Science and Technology", "slug": "university-science-technology-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "عدن", "city": "عدن", "website": "https://ust.edu/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/sitech.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://ust.edu/"], "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 101, "colleges": [] },
+  { "nameAr": "جامعة الريان", "nameEn": "Al-Rayan University", "slug": "al-rayan-university", "institutionType": "private_university", "ownership": "private", "governorate": "حضرموت", "city": "المكلا", "website": "https://alrayan-university.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/alrayan.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://alrayan-university.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 102, "colleges": [] },
+  { "nameAr": "جامعة ابن خلدون", "nameEn": "Ibn Khaldoun University", "slug": "ibn-khaldoun-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "عدن", "city": "عدن", "website": "http://www.ik-univ.net/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/ikh.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "http://www.ik-univ.net/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 103, "colleges": [] },
+  { "nameAr": "كلية 22 مايو للعلوم الطبية", "slug": "22-may-college-medical-sciences", "institutionType": "university_college", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "https://22may-univ.com/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/22may.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://22may-univ.com/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 104, "colleges": [] },
+  { "nameAr": "جامعة الإمام الشافعي للعلوم الإسلامية", "slug": "imam-shafii-university-islamic-sciences", "institutionType": "private_university", "ownership": "private", "governorate": "حضرموت", "city": "المكلا", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/shafay.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 105, "colleges": [] },
+  { "nameAr": "جامعة الأحقاف", "nameEn": "Al-Ahgaff University", "slug": "al-ahgaff-university", "institutionType": "private_university", "ownership": "private", "governorate": "حضرموت", "city": "المكلا", "website": "https://www.ahgaff.edu/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/ahgaff.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://www.ahgaff.edu/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 106, "colleges": [] },
+  { "nameAr": "جامعة الحكمة", "nameEn": "Al-Hikma University", "slug": "al-hikma-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "http://hikma.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/hekma.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "http://hikma.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 107, "colleges": [] },
+  { "nameAr": "جامعة العادل", "slug": "al-adel-university", "institutionType": "private_university", "ownership": "private", "governorate": "عدن", "city": "عدن", "website": "https://www.al-adel.university.com/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/adel.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://www.al-adel.university.com/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 108, "colleges": [] },
+  { "nameAr": "جامعة العرب", "nameEn": "Al-Arab University", "slug": "al-arab-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "حضرموت", "city": "المكلا", "website": "http://www.alarabuni.com/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/alarab.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "http://www.alarabuni.com/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 109, "colleges": [] },
+  { "nameAr": "الجامعة الوطنية", "nameEn": "National University", "slug": "national-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "https://national-univ.net/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/nu.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://national-univ.net/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 110, "colleges": [] },
+  { "nameAr": "جامعة القرآن الكريم والعلوم الإسلامية", "slug": "quran-university-islamic-sciences", "institutionType": "private_university", "ownership": "private", "governorate": "حضرموت", "city": "المكلا", "website": "https://uqs.me/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/hq.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://uqs.me/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 111, "colleges": [] },
+  { "nameAr": "جامعة الوسطية الشرعية للعلوم الإسلامية", "slug": "wasatia-university-islamic-sciences", "institutionType": "private_university", "ownership": "private", "governorate": "حضرموت", "city": "المكلا", "website": "http://www.wasatiacollege.com/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/wasatia.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "http://www.wasatiacollege.com/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 112, "colleges": [] },
+  { "nameAr": "جامعة العطاء للعلوم والتكنولوجيا", "slug": "al-ataa-university-science-technology", "institutionType": "private_university", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "https://www.alataa-univ.net/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/alatta.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://www.alataa-univ.net/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 113, "colleges": [] },
+  { "nameAr": "جامعة الجند للعلوم والتكنولوجيا", "nameEn": "Al-Janad University for Science and Technology", "slug": "al-janad-university-science-technology", "aliases": ["جامعة الجند"], "institutionType": "private_university", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "https://just.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/ganad.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://just.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 114, "colleges": [] },
+  { "nameAr": "جامعة الريادة", "slug": "al-riyada-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "عدن", "city": "عدن", "website": "https://www.ru-ye.com/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/reyada.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://www.ru-ye.com/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 115, "colleges": [] },
+  { "nameAr": "الجامعة اللبنانية الدولية", "nameEn": "Lebanese International University Yemen", "slug": "lebanese-international-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "عدن", "city": "عدن", "website": "https://www.liuyemen.net/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/libnan.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://www.liuyemen.net/", "https://caqa.gov.ye/alaaatmad/topic/728"], "verificationStatus": "verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 116, "colleges": [] },
+  { "nameAr": "جامعة السعيد", "slug": "al-saeed-university", "institutionType": "private_university", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "https://www.alsaeeduni.net/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/su.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://www.alsaeeduni.net/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 117, "colleges": [] },
+  { "nameAr": "جامعة الرواد", "slug": "al-rowad-university-yemen", "institutionType": "private_university", "ownership": "private", "governorate": "تعز", "city": "تعز", "website": "http://alrowaduni.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2021/10/rowad.png", "sourceUrls": ["https://www.moheye.net/private-universities/", "http://alrowaduni.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 118, "colleges": [] },
+  { "nameAr": "جامعة عدن الألمانية الدولية", "nameEn": "Aden German International University", "slug": "aden-german-international-university", "institutionType": "private_university", "ownership": "private", "governorate": "عدن", "city": "عدن", "website": "https://adengiu.com/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://moheye.net/wp-content/uploads/2023/09/agiu.jpg", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://adengiu.com/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 119, "colleges": [] },
+  { "nameAr": "جامعة الرشيد الذكية", "slug": "al-rasheed-smart-university", "aliases": ["جامعة الرشيد"], "institutionType": "private_university", "ownership": "private", "governorate": "صنعاء", "city": "صنعاء", "website": "http://www.ar-rasheed.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455886182676.png?w=200&h=200", "sourceUrls": ["https://www.moheye.net/private-universities/", "https://caqa.gov.ye/ar", "http://www.ar-rasheed.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 120, "colleges": [] },
+  { "nameAr": "جامعة الأندلس للعلوم والتقنية", "slug": "andalus-university-science-technology", "institutionType": "private_university", "ownership": "private", "governorate": "صنعاء", "city": "صنعاء", "website": null, "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": "https://caqa.gov.ye/files/topics/16455895468653.png?w=200&h=200", "sourceUrls": ["https://caqa.gov.ye/ar"], "verificationStatus": "partially_verified", "accreditationStatus": "accredited", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 121, "colleges": [] },
+  { "nameAr": "كلية المجتمع سيئون", "nameEn": "Seiyun Community College", "slug": "seiyun-community-college", "institutionType": "community_college", "ownership": "public", "governorate": "حضرموت", "city": "سيئون", "website": "https://www.syncc.edu.ye/", "officialEmail": null, "phoneNumbers": [], "logoSourceUrl": null, "sourceUrls": ["https://www.moheye.net/community-colleges/", "https://www.syncc.edu.ye/"], "verificationStatus": "verified", "accreditationStatus": "licensed", "dataSource": "yemen-universities-seed-v1", "isSeedData": true, "isDemo": false, "isActive": true, "sortOrder": 201, "colleges": [] }
+]

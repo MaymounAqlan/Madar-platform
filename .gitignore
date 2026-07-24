@@ -1,0 +1,147 @@
+# ============================================
+# MADAR Platform - Root .gitignore
+# Covers: app (React/Vite), madar-backend (NestJS), madar-ai (FastAPI), scripts
+# ============================================
+
+# Node.js dependencies
+node_modules/
+**/node_modules/
+
+# Package manager caches
+.npm/
+.pnpm-store/
+.yarn/
+.yarn-cache/
+
+# Environment variables and secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Node.js builds
+dist/
+**/dist/
+build/
+**/build/
+.next/
+**/.next/
+out/
+**/out/
+coverage/
+**/coverage/
+
+# Python environments
+.venv/
+**/.venv/
+venv/
+**/venv/
+env/
+**/env/
+
+# Python cache and test files
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+**/.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+**/*.log
+runtime-logs/
+logs/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+.cache/
+**/.cache/
+*.tmp
+*.temp
+
+# Runtime and private data
+backups/
+**/backups/
+uploads/
+**/uploads/
+migration-reports/
+**/migration-reports/
+
+# Local backup source folders
+src-backup/
+**/src-backup/
+
+# AI models and caches
+models_cache/
+**/models_cache/
+*.h5
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.bin
+
+# Archives and database dumps
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+*.dump
+*.bak
+*.sql.gz
+
+# Local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Operating system
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Sensitive credentials
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account.json
+
+# Root development screenshots only
+/*.png
+/screenshots/
+/debug-screenshots/
+/test-results/
+
+# ──────────────────────────────────────────────
+# Explicit Includes (Must not be ignored)
+# ──────────────────────────────────────────────
+!app/public/**
+!**/assets/**
+!package.json
+!**/package.json
+!package-lock.json
+!**/package-lock.json
+!requirements.txt
+!pyproject.toml
+!Dockerfile
+!**/Dockerfile
+!README.md
+!**/README.md

@@ -1,0 +1,61 @@
+{
+  "plan": {
+    "programNameAr": "بكالوريوس علوم الحاسب",
+    "programNameEn": "Bachelor of Computer Science",
+    "academicYear": "2026-2027",
+    "version": 1,
+    "totalCredits": 120,
+    "yearsCount": 4,
+    "semestersCount": 8
+  },
+  "courses": [
+    {
+      "code": "CS101",
+      "nameAr": "مقدمة في علوم الحاسب",
+      "nameEn": "Introduction to Computer Science",
+      "creditHours": 3,
+      "year": 1,
+      "level": 1,
+      "semester": 1,
+      "courseType": "required",
+      "prerequisites": [],
+      "corequisites": []
+    },
+    {
+      "code": "MATH101",
+      "nameAr": "تفاضل وتكامل 1",
+      "nameEn": "Calculus I",
+      "creditHours": 3,
+      "year": 1,
+      "level": 1,
+      "semester": 1,
+      "courseType": "required",
+      "prerequisites": [],
+      "corequisites": []
+    },
+    {
+      "code": "CS102",
+      "nameAr": "أساسيات البرمجة",
+      "nameEn": "Programming Fundamentals",
+      "creditHours": 3,
+      "year": 1,
+      "level": 1,
+      "semester": 2,
+      "courseType": "required",
+      "prerequisites": ["CS101"],
+      "corequisites": []
+    },
+    {
+      "code": "CS201",
+      "nameAr": "هياكل البيانات",
+      "nameEn": "Data Structures",
+      "creditHours": 3,
+      "year": 2,
+      "level": 2,
+      "semester": 1,
+      "courseType": "required",
+      "prerequisites": ["CS102"],
+      "corequisites": []
+    }
+  ]
+}
