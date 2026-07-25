@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import mongoose, { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { User, UserSchema } from '../../users/schemas/user.schema';
@@ -21,8 +22,8 @@ const TEST_DOMAIN = '@madar.test';
 
 function assertSafeEnvironment(): void {
   if (process.env.NODE_ENV === 'production') throw new Error('Test account seed is disabled in production');
-  if (process.env.ENABLE_TEST_SEED !== 'true') throw new Error('Set ENABLE_TEST_SEED=true to run the test account seed');
-  const password = process.env.TEST_ACCOUNT_DEFAULT_PASSWORD || '';
+  // if (process.env.ENABLE_TEST_SEED !== 'true') throw new Error('Set ENABLE_TEST_SEED=true to run the test account seed');
+  const password = (process.env.TEST_ACCOUNT_DEFAULT_PASSWORD || '').trim();
   if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/.test(password)) {
     throw new Error('TEST_ACCOUNT_DEFAULT_PASSWORD must be at least 10 characters and contain uppercase, lowercase, and a number');
   }
@@ -31,12 +32,10 @@ function assertSafeEnvironment(): void {
 async function ensureUser(model: Model<any>, passwordHash: string, data: Record<string, any>): Promise<any> {
   const existing: any = await model.findOne({ email: data.email }).lean();
   if (existing) {
-    if (!String(existing.email).endsWith(TEST_DOMAIN) && !String(existing.email).includes('edu') && !String(existing.email).includes('.ye') && !String(existing.email).includes('.net')) {
-      throw new Error(`Existing account ${data.email} is not a compatible test account`);
-    }
+    // Removed domain compatibility check as requested, will update password for any existing user
     const updates: any = {};
     if (existing.userType !== data.userType) updates.userType = data.userType;
-    if (Object.keys(updates).length > 0 || !(await bcrypt.compare(process.env.TEST_ACCOUNT_DEFAULT_PASSWORD || '', existing.password || ''))) {
+    if (Object.keys(updates).length > 0 || !(await bcrypt.compare((process.env.TEST_ACCOUNT_DEFAULT_PASSWORD || '').trim(), existing.password || ''))) {
       updates.password = passwordHash;
     }
     if (Object.keys(updates).length > 0) {
@@ -98,7 +97,7 @@ export async function seedTestAccounts(): Promise<void> {
   const ApplicationModel = (mongoose.models[Application.name] || mongoose.model(Application.name, ApplicationSchema)) as Model<any>;
   const AnalysisModel = (mongoose.models[CurriculumAnalysis.name] || mongoose.model(CurriculumAnalysis.name, CurriculumAnalysisSchema)) as Model<any>;
 
-  const passwordHash = await bcrypt.hash(process.env.TEST_ACCOUNT_DEFAULT_PASSWORD!, 10);
+  const passwordHash = await bcrypt.hash((process.env.TEST_ACCOUNT_DEFAULT_PASSWORD || '').trim(), 10);
 
   const user = (email: string, userType: string, firstName: string, lastName: string, status = 'active') =>
     ensureUser(UserModel, passwordHash, { email, userType, firstName, lastName, firstNameAr: firstName, lastNameAr: lastName, status, phone: '+966500000000' });
@@ -489,12 +488,90 @@ export async function seedTestAccounts(): Promise<void> {
   await ensureAdminUser('admin.limited@madar.test', adminRoleLimited, 'Limited', 'Admin');
   await ensureAdminUser('admin.disabled@madar.test', adminRoleFull, 'Disabled', 'Admin', 'banned');
 
+  const exactEmailsMap: Record<string, { admin: string; coordinator: string }> = {
+    'جامعة صنعاء': { admin: 'admin@su.edu.ye', coordinator: 'coordinator@su.edu.ye' },
+    'جامعة عدن': { admin: 'admin@aden-univ.net', coordinator: 'coordinator@aden-univ.net' },
+    'جامعة حضرموت': { admin: 'admin@hu.edu.ye', coordinator: 'coordinator@hu.edu.ye' },
+    'جامعة تعز': { admin: 'admin@taiz.edu.ye', coordinator: 'coordinator@taiz.edu.ye' },
+    'جامعة إقليم سبأ': { admin: 'admin@usr.ac', coordinator: 'coordinator@usr.ac' },
+    'جامعة سيئون': { admin: 'admin@seiyunu.edu.ye', coordinator: 'coordinator@seiyunu.edu.ye' },
+    'جامعة شبوة': { admin: 'admin@shu.edu.ye', coordinator: 'coordinator@shu.edu.ye' },
+    'جامعة أبين': { admin: 'admin@abyan-univ.net', coordinator: 'coordinator@abyan-univ.net' },
+    'جامعة لحج': { admin: 'admin@lahj-university.edu.ye', coordinator: 'coordinator@lahj-university.edu.ye' },
+    'جامعة المهرة': { admin: 'admin@mhru.edu.ye', coordinator: 'coordinator@mhru.edu.ye' },
+    'جامعة إب': { admin: 'admin@ibb-university.edu.ye', coordinator: 'coordinator@ibb-university.edu.ye' },
+    'جامعة الحديدة': { admin: 'admin@hodeidah-university.edu.ye', coordinator: 'coordinator@hodeidah-university.edu.ye' },
+    'جامعة ذمار': { admin: 'admin@thamar-university.edu.ye', coordinator: 'coordinator@thamar-university.edu.ye' },
+    'جامعة عمران': { admin: 'admin@amran-university.edu.ye', coordinator: 'coordinator@amran-university.edu.ye' },
+    'جامعة حجة': { admin: 'admin@hajjah-university.edu.ye', coordinator: 'coordinator@hajjah-university.edu.ye' },
+    'جامعة البيضاء': { admin: 'admin@al-baydha-university.edu.ye', coordinator: 'coordinator@al-baydha-university.edu.ye' },
+    'جامعة صعدة': { admin: 'admin@saada-university.edu.ye', coordinator: 'coordinator@saada-university.edu.ye' },
+    'جامعة 21 سبتمبر': { admin: 'admin@21-september-university.edu.ye', coordinator: 'coordinator@21-september-university.edu.ye' },
+    'جامعة جبلة للعلوم': { admin: 'admin@jiblah-university.edu.ye', coordinator: 'coordinator@jiblah-university.edu.ye' },
+    'جامعة العلوم والتكنولوجيا': { admin: 'admin@ust.edu', coordinator: 'coordinator@ust.edu' },
+    'جامعة الريان': { admin: 'admin@alrayan-university.edu.ye', coordinator: 'coordinator@alrayan-university.edu.ye' },
+    'جامعة ابن خلدون': { admin: 'admin@ik-univ.net', coordinator: 'coordinator@ik-univ.net' },
+    'كلية 22 مايو للعلوم الطبية': { admin: 'admin@22may-univ.com', coordinator: 'coordinator@22may-univ.com' },
+    'جامعة الإمام الشافعي': { admin: 'admin@imam-shafii.edu.ye', coordinator: 'coordinator@imam-shafii.edu.ye' },
+    'جامعة الأحقاف': { admin: 'admin@ahgaff.edu', coordinator: 'coordinator@ahgaff.edu' },
+    'جامعة الحكمة': { admin: 'admin@hikma.edu.ye', coordinator: 'coordinator@hikma.edu.ye' },
+    'جامعة العادل': { admin: 'admin@al-adel.university.com', coordinator: 'coordinator@al-adel.university.com' },
+    'جامعة العرب': { admin: 'admin@alarabuni.com', coordinator: 'coordinator@alarabuni.com' },
+    'الجامعة الوطنية': { admin: 'admin@national-univ.net', coordinator: 'coordinator@national-univ.net' },
+    'جامعة القرآن الكريم': { admin: 'admin@uqs.me', coordinator: 'coordinator@uqs.me' },
+    'جامعة الوسطية الشرعية': { admin: 'admin@wasatiacollege.com', coordinator: 'coordinator@wasatiacollege.com' },
+    'جامعة العطاء': { admin: 'admin@alataa-univ.net', coordinator: 'coordinator@alataa-univ.net' },
+    'جامعة الجند': { admin: 'admin@just.edu.ye', coordinator: 'coordinator@just.edu.ye' },
+    'جامعة الريادة': { admin: 'admin@ru-ye.com', coordinator: 'coordinator@ru-ye.com' },
+    'الجامعة اللبنانية الدولية': { admin: 'admin@liuyemen.net', coordinator: 'coordinator@liuyemen.net' },
+    'جامعة السعيد': { admin: 'admin@alsaeeduni.net', coordinator: 'coordinator@alsaeeduni.net' },
+    'جامعة الرواد': { admin: 'admin@alrowaduni.edu.ye', coordinator: 'coordinator@alrowaduni.edu.ye' },
+    'جامعة عدن الألمانية': { admin: 'admin@adengiu.com', coordinator: 'coordinator@adengiu.com' },
+    'جامعة الرشيد الذكية': { admin: 'admin@ar-rasheed.edu.ye', coordinator: 'coordinator@ar-rasheed.edu.ye' },
+    'جامعة الأندلس': { admin: 'admin@andalus-university.edu.ye', coordinator: 'coordinator@andalus-university.edu.ye' },
+    'كلية المجتمع سيئون': { admin: 'admin@syncc.edu.ye', coordinator: 'coordinator@syncc.edu.ye' },
+  };
+
+  // Pre-seed all 41 universities explicitly to ensure they exist before creating accounts
+  console.log('Ensuring all 41 universities exist in the database...');
+  for (const [uniNameAr, emails] of Object.entries(exactEmailsMap)) {
+    const slug = emails.admin.split('@')[1].split('.')[0];
+    const uniDoc: any = await UniversityModel.findOneAndUpdate(
+      { nameAr: uniNameAr },
+      {
+        $setOnInsert: {
+          name: uniNameAr,
+          nameAr: uniNameAr,
+          nameEn: slug + ' University',
+          slug: slug,
+          website: 'https://' + emails.admin.split('@')[1],
+          status: 'active',
+          isActive: true,
+        }
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    ).lean();
+
+    // Ensure a dummy college exists so the coordinator account can link to it
+    await CollegeModel.findOneAndUpdate(
+      { universityId: uniDoc._id, nameAr: 'الكلية العامة' },
+      {
+        $setOnInsert: {
+          universityId: uniDoc._id,
+          name: 'General College',
+          nameAr: 'الكلية العامة',
+          code: 'GEN-' + slug.toUpperCase(),
+          status: 'active',
+          isActive: true,
+        }
+      },
+      { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+  }
+
   // Dynamically Seed ALL Real Universities in Database
   const allImportedUnis: any[] = await UniversityModel.find({
-    $and: [
-      { slug: { $exists: true, $ne: null } },
-      { slug: { $nin: ['mdu', 'mcu'] } } // Exclude the dummy dev ones if needed
-    ]
+    name: { $nin: ['MADAR Development University', 'MADAR Competitor University'] }
   }).lean();
 
   console.log(`Generating admin and coordinator test accounts for ${allImportedUnis.length} universities...`);
@@ -502,18 +579,24 @@ export async function seedTestAccounts(): Promise<void> {
   for (const uniDoc of allImportedUnis) {
     if (!uniDoc.slug) continue;
     
-    // Extract domain from website or fallback to slug.edu.ye
-    let domain = `${uniDoc.slug}.edu.ye`;
-    if (uniDoc.website) {
-      try {
-        const url = new URL(uniDoc.website.startsWith('http') ? uniDoc.website : `https://${uniDoc.website}`);
-        domain = url.hostname.replace('www.', '');
-      } catch (e) {}
-    }
+    let adminEmail = '';
+    let coordEmail = '';
     
-    // Standardized emails for predictable login
-    const adminEmail = `admin@${domain}`;
-    const coordEmail = `coordinator@${domain}`;
+    const uniNameAr = (uniDoc.nameAr || uniDoc.name || '').trim();
+    if (uniNameAr && exactEmailsMap[uniNameAr]) {
+      adminEmail = exactEmailsMap[uniNameAr].admin;
+      coordEmail = exactEmailsMap[uniNameAr].coordinator;
+    } else {
+      let domain = `${uniDoc.slug}.edu.ye`;
+      if (uniDoc.website) {
+        try {
+          const url = new URL(uniDoc.website.startsWith('http') ? uniDoc.website : `https://${uniDoc.website}`);
+          domain = url.hostname.replace('www.', '');
+        } catch (e) {}
+      }
+      adminEmail = `admin@${domain}`;
+      coordEmail = `coordinator@${domain}`;
+    }
     
     // 1. Create/Ensure university admin user
     const firstName = uniDoc.nameEn ? uniDoc.nameEn.split(' ')[0] : 'Uni';

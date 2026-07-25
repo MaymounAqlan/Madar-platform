@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Award, BarChart3, CheckCircle2, TrendingUp, AlertTriangle, Sparkles, HelpCircle, ArrowRightLeft } from 'lucide-react';
+import { Award, BarChart3, CheckCircle2, TrendingUp, AlertTriangle, Sparkles, HelpCircle, ArrowRightLeft, Building2 } from 'lucide-react';
 import PortalLayout from '@/components/PortalLayout';
 import ContentCard from '@/components/ContentCard';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -131,8 +131,20 @@ export default function UniversityBenchmarking() {
                   <div className="space-y-1 flex-1">
                     <h4 className="font-black text-sm text-[#0e0f0c]">{uni.nameAr || uni.name}</h4>
                     <p className="text-[11px] text-[#828782] line-clamp-1">{uni.name}</p>
-                    {uni.logoUrl && (
-                      <img src={resolveAssetUrl(uni.logoUrl)} alt={uni.nameAr || uni.name} className="h-16 w-16 object-contain rounded-lg mt-3 p-1 border border-[#dfe1dd] bg-white shadow-sm" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    {uni.logoUrl ? (
+                      <div className="h-16 w-16 mt-3 relative overflow-hidden rounded-lg border border-[#dfe1dd] bg-white shadow-sm flex items-center justify-center group">
+                        <Building2 className="text-[#c1c4bf] absolute z-0" size={24} />
+                        <img 
+                          src={resolveAssetUrl(uni.logoUrl)} 
+                          alt={uni.nameAr || uni.name} 
+                          className="h-full w-full object-contain p-1 z-10 bg-white" 
+                          onError={(e) => { e.currentTarget.style.display = 'none'; }} 
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-16 w-16 mt-3 rounded-lg border border-[#dfe1dd] bg-[#f0f1ee] shadow-sm flex items-center justify-center">
+                        <Building2 className="text-[#a4a7a3]" size={24} />
+                      </div>
                     )}
                   </div>
                   
