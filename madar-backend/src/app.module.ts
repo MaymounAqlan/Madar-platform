@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import databaseConfig from './config/database.config';
 import { HealthController } from './common/controllers/health.controller';
+import { DebugController } from './common/controllers/debug.controller';
 
 // Existing modules
 import { AuthModule } from './auth/auth.module';
@@ -101,7 +102,7 @@ import { SupportModule } from './support/support.module';
     AdminAiModule,
     SupportModule,
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, DebugController],
   providers: [],
 })
 export class AppModule {}
