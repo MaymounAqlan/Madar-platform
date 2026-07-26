@@ -154,6 +154,7 @@ export class AuthService {
     return {
       user: this.sanitizeUser(user),
       ...tokens,
+      emailSent: welcomeResult.success,
     };
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import * as nodemailer from 'nodemailer';
@@ -13,7 +13,7 @@ interface EmailResult {
 }
 
 @Injectable()
-export class EmailService {
+export class EmailService implements OnModuleInit {
   private readonly logger = new Logger(EmailService.name);
 
   constructor(
@@ -21,6 +21,16 @@ export class EmailService {
     @InjectModel(PlatformSetting.name) private readonly settingModel: Model<PlatformSettingDocument>,
     @InjectModel(EmailTemplate.name) private readonly templateModel: Model<EmailTemplateDocument>,
   ) {}
+
+  async onModuleInit() {
+    try {
+      const transporter = await this.getTransporter();
+      await transporter.verify();
+      this.logger.log('SMTP connection verified successfully on module init.');
+    } catch (e: any) {
+      this.logger.error(`SMTP connection failed during module init: ${e.message}`, e.stack);
+    }
+  }
 
   private async getTransporter(): Promise<Transporter> {
     try {

@@ -376,7 +376,9 @@ export class UniversityDirectoryService {
   }
 
   private asObjectId(value: string) {
-    if (!Types.ObjectId.isValid(value)) throw new BadRequestException('Invalid identifier');
+    if (!Types.ObjectId.isValid(value)) {
+      throw new BadRequestException({ code: 'INVALID_ID', message: 'Invalid identifier' });
+    }
     return new Types.ObjectId(value);
   }
 

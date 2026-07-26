@@ -418,7 +418,7 @@ export default function Register() {
               <h2 className="mb-1 text-base font-bold" style={{ color: '#0e0f0c' }}>
                 {t('بيانات الحساب', 'Account Details')}
               </h2>
-              <div className="grid grid-cols-3 gap-2 rounded-2xl bg-[#f0f1ee] p-1">
+              <div className="flex flex-col sm:flex-row gap-2 rounded-2xl bg-[#f0f1ee] p-1">
                 {([
                   { value: 'student', ar: 'طالب', en: 'Student' },
                   { value: 'company', ar: 'شركة', en: 'Company' },
@@ -429,7 +429,7 @@ export default function Register() {
                     type="button"
                     onClick={() => updateField('accountType', option.value)}
                     className={cn(
-                      'rounded-xl px-3 py-2 text-sm font-bold transition-all',
+                      'flex-1 rounded-xl px-3 py-2 text-sm font-bold transition-all',
                       formData.accountType === option.value ? 'bg-white text-[#0e0f0c] shadow-sm' : 'text-[#5b5e5a]',
                     )}
                   >
@@ -619,7 +619,7 @@ export default function Register() {
                 onChange={(v) => updateField('universityWebsite', v)}
                 icon={<Globe size={18} style={{ color: '#828782' }} />}
               />
-              <div className="grid grid-cols-2 gap-3"><AuthInput label={t('الدولة', 'Country')} placeholder={t('المملكة العربية السعودية', 'Saudi Arabia')} value={formData.country} onChange={(value) => updateField('country', value)} /><AuthInput label={t('المدينة', 'City')} placeholder={t('الرياض', 'Riyadh')} value={formData.city} onChange={(value) => updateField('city', value)} /></div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3"><AuthInput label={t('الدولة', 'Country')} placeholder={t('المملكة العربية السعودية', 'Saudi Arabia')} value={formData.country} onChange={(value) => updateField('country', value)} /><AuthInput label={t('المدينة', 'City')} placeholder={t('الرياض', 'Riyadh')} value={formData.city} onChange={(value) => updateField('city', value)} /></div>
               <AuthInput label={t('العنوان', 'Address')} placeholder={t('العنوان المؤسسي', 'Institutional address')} value={formData.address} onChange={(value) => updateField('address', value)} icon={<Globe size={18} style={{ color: '#828782' }} />} />
             </>
           ) : (
@@ -632,7 +632,7 @@ export default function Register() {
               <label className="block"><span className="mb-2 block text-sm font-semibold">{t('القسم', 'Department')} *</span><AcademicReferenceCombobox value={formData.departmentId} items={departments} selected={departments.find((item) => item.id === formData.departmentId)} placeholder={t('اختر القسم', 'Select department')} searchPlaceholder={t('ابحث باسم القسم', 'Search departments')} emptyText={t('لا توجد أقسام متاحة لهذه الكلية', 'No departments available for this college')} loading={academicLoading.departments} error={academicError.departments} disabled={!formData.collegeId} onSelect={(selected) => setFormData((current) => ({ ...current, departmentId: selected.id, department: selected.nameAr || selected.name, majorId: '', major: '' }))} />{errors.department && <p className="mt-1 text-xs text-red-600">{errors.department}</p>}</label>
               <label className="block"><span className="mb-2 block text-sm font-semibold">{t('التخصص', 'Major')} {majors.length > 0 ? '*' : ''}</span><AcademicReferenceCombobox value={formData.majorId} items={majors} selected={majors.find((item) => item.id === formData.majorId)} placeholder={t('اختر التخصص', 'Select major')} searchPlaceholder={t('ابحث باسم التخصص', 'Search majors')} emptyText={t('لا توجد تخصصات مسجلة لهذا القسم', 'No majors registered for this department')} loading={academicLoading.majors} error={academicError.majors} disabled={!formData.departmentId || majors.length === 0} onSelect={(selected) => setFormData((current) => ({ ...current, majorId: selected.id, major: selected.nameAr || selected.name }))} />{errors.major && <p className="mt-1 text-xs text-red-600">{errors.major}</p>}</label>
               <AuthInput label={t('الرقم الجامعي', 'Student Number')} placeholder="ST-2026-001" value={formData.studentNumber} onChange={(v) => updateField('studentNumber', v)} error={errors.studentNumber} icon={<User size={18} style={{ color: '#828782' }} />} required />
-              <div className="grid grid-cols-2 gap-3"><AuthInput label={t('سنة الالتحاق', 'Enrollment Year')} type="number" placeholder="2023" value={formData.enrollmentYear} onChange={(v) => updateField('enrollmentYear', v)} error={errors.enrollmentYear} required /><AuthInput label={t('سنة التخرج المتوقعة', 'Expected Graduation')} type="number" placeholder="2027" value={formData.expectedGraduationYear} onChange={(v) => updateField('expectedGraduationYear', v)} error={errors.expectedGraduationYear} required /></div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3"><AuthInput label={t('سنة الالتحاق', 'Enrollment Year')} type="number" placeholder="2023" value={formData.enrollmentYear} onChange={(v) => updateField('enrollmentYear', v)} error={errors.enrollmentYear} required /><AuthInput label={t('سنة التخرج المتوقعة', 'Expected Graduation')} type="number" placeholder="2027" value={formData.expectedGraduationYear} onChange={(v) => updateField('expectedGraduationYear', v)} error={errors.expectedGraduationYear} required /></div>
               <label className="block"><span className="mb-2 block text-sm font-semibold">{t('حالة الطالب', 'Student Status')}</span><select className="w-full rounded-2xl border bg-white px-4 py-3 text-sm font-semibold" value={formData.studentStatus} onChange={(e) => updateField('studentStatus', e.target.value)}><option value="student">{t('طالب', 'Student')}</option><option value="graduate">{t('خريج', 'Graduate')}</option></select></label>
 
               <div>

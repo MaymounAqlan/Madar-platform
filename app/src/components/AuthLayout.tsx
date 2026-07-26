@@ -85,7 +85,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         )}
         style={{ background: '#ffffff' }}
       >
-        <div className="w-full max-w-md">{children}</div>
+        <div className="w-full max-w-lg lg:max-w-md">{children}</div>
       </motion.div>
     </div>
   );

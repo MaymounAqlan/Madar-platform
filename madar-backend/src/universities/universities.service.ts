@@ -430,11 +430,14 @@ export class UniversitiesService {
   }
 
   async uploadLogo(userId: string, file: Express.Multer.File): Promise<{ logoUrl: string }> {
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+      throw new BadRequestException({ code: 'INVALID_ID', message: 'Invalid user identifier' });
+    }
     const university: any = await this.universityModel.findOne({ userId: new Types.ObjectId(userId) }).lean();
-    if (!university) throw new NotFoundException('University profile not found');
-    if (!file?.buffer?.length) throw new BadRequestException('Logo file is required');
-    if (file.size > 5 * 1024 * 1024) throw new BadRequestException('Logo must not exceed 5 MB');
-    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.mimetype)) throw new BadRequestException('Only PNG, JPEG, and WebP logos are supported');
+    if (!university) throw new NotFoundException({ code: 'UNIVERSITY_PROFILE_NOT_FOUND', message: 'University profile not found' });
+    if (!file?.buffer?.length) throw new BadRequestException({ code: 'LOGO_FILE_REQUIRED', message: 'Logo file is required' });
+    if (file.size > 5 * 1024 * 1024) throw new BadRequestException({ code: 'FILE_TOO_LARGE', message: 'Logo must not exceed 5 MB' });
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.mimetype)) throw new BadRequestException({ code: 'UNSUPPORTED_FILE_TYPE', message: 'Only PNG, JPEG, and WebP logos are supported' });
     
     // detect extension
     let extension = 'png';
@@ -445,7 +448,8 @@ export class UniversitiesService {
     const safeSlug = (university.slug || String(university._id)).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const fileName = `${safeSlug}-${digest}.${extension}`;
     const relativePath = join('uploads', 'universities', fileName).replace(/\\/g, '/');
-    const outputDirectory = resolve(process.cwd(), 'uploads', 'universities');
+    const uploadDir = process.env.UPLOAD_DIR || join(process.cwd(), 'uploads');
+    const outputDirectory = resolve(uploadDir, 'universities');
     
     await mkdir(outputDirectory, { recursive: true });
     await writeFile(resolve(outputDirectory, fileName), file.buffer);
@@ -464,7 +468,8 @@ export class UniversitiesService {
     );
 
     if (university.logoStorageKey && university.logoStorageKey !== relativePath && /^uploads\/universities\//.test(university.logoStorageKey)) {
-      const previous = resolve(process.cwd(), university.logoStorageKey);
+      const baseDir = process.env.UPLOAD_DIR ? resolve(process.env.UPLOAD_DIR, '..') : process.cwd();
+      const previous = resolve(baseDir, university.logoStorageKey);
       if (previous.startsWith(outputDirectory)) await unlink(previous).catch(() => undefined);
     }
     
