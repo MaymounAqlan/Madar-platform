@@ -47,17 +47,9 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="mb-6"
+            className="mb-8 flex justify-center"
           >
-            <span
-              className="text-5xl font-black tracking-tight"
-              style={{
-                fontFamily: "'Space Grotesk', system-ui, -apple-system, sans-serif",
-                color: '#9fe870',
-              }}
-            >
-              {t('مدار', 'MADAR')}
-            </span>
+            <img src="/images/madar-logo.png" alt="MADAR" className="w-56 sm:w-72 lg:w-80 h-auto object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-500" />
           </motion.div>
 
           <motion.p

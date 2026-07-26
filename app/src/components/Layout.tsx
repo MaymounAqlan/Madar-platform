@@ -72,15 +72,15 @@ export default function Layout() {
       dir={isRTL ? 'rtl' : 'ltr'}
       data-landing-theme={theme}
     >
-      <header className="landing-nav sticky top-0 z-50 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4">
+      <header className="landing-nav sticky top-0 z-50 px-4 sm:px-6 lg:px-8 py-2">
+        <div className="mx-auto flex h-24 max-w-7xl items-center justify-between gap-4">
           <button
             type="button"
             onClick={() => navigateToSection('top')}
-            className="landing-nav-brand shrink-0 text-xl font-bold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
+            className="landing-nav-brand shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
             aria-label={t('الانتقال إلى الرئيسية', 'Go to home')}
           >
-            {t('مدار', 'MADAR')}
+            <img src="/images/madar-logo.png" alt="MADAR" className="h-20 sm:h-24 w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105" />
           </button>
 
           <nav className="hidden min-w-0 items-center gap-0.5 lg:flex" aria-label={t('التنقل الرئيسي', 'Main navigation')}>
@@ -89,7 +89,7 @@ export default function Layout() {
                 key={item.to || item.sectionId}
                 type="button"
                 onClick={() => navigateFromMenu(item)}
-                className="landing-nav-link min-h-10 whitespace-nowrap rounded-full px-3 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
+                className="landing-nav-link min-h-10 whitespace-nowrap rounded-full px-4 py-2 text-sm lg:text-base font-bold transition-all duration-300 hover:bg-[#1ba442]/10 hover:text-[#1ba442] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
               >
                 {t(item.ar, item.en)}
               </button>
@@ -110,7 +110,7 @@ export default function Layout() {
             <button
               type="button"
               onClick={toggleLanguage}
-              className="landing-nav-link inline-flex min-h-10 items-center gap-1.5 rounded-full px-3 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
+              className="landing-nav-link inline-flex min-h-10 items-center gap-1.5 rounded-full px-4 text-sm font-bold transition-all duration-300 hover:bg-[#1ba442]/10 hover:text-[#1ba442] hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
               aria-label={t('تغيير اللغة إلى الإنجليزية', 'Change language to Arabic')}
             >
               <Globe2 size={15} />
@@ -118,13 +118,13 @@ export default function Layout() {
             </button>
             <Link
               to="/login"
-              className="landing-button-secondary inline-flex min-h-10 items-center rounded-full px-4 py-2 text-xs font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
+              className="landing-button-secondary inline-flex min-h-10 items-center rounded-full px-5 py-2 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
             >
               {t('تسجيل الدخول', 'Sign in')}
             </Link>
             <Link
               to="/register"
-              className="landing-button-primary inline-flex min-h-10 items-center rounded-full px-4 py-2 text-xs font-bold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
+              className="landing-button-primary inline-flex min-h-10 items-center rounded-full px-5 py-2 text-sm font-bold transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1ba442]"
             >
               {t('إنشاء حساب', 'Create account')}
             </Link>

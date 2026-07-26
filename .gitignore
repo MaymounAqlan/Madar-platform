@@ -71,8 +71,8 @@ temp/
 # Runtime and private data
 backups/
 **/backups/
-uploads/
-**/uploads/
+# uploads/
+# **/uploads/
 migration-reports/
 **/migration-reports/
 
@@ -145,3 +145,4 @@ service-account.json
 !**/Dockerfile
 !README.md
 !**/README.md
+!madar-backend/uploads/**
