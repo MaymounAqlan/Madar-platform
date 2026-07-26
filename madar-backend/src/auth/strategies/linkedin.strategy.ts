@@ -12,6 +12,14 @@ export class LinkedInStrategy extends PassportStrategy(Strategy, 'linkedin') {
     const clientSecret = configService.get<string>('LINKEDIN_CLIENT_SECRET');
     const callbackURL = configService.get<string>('LINKEDIN_CALLBACK_URL') || '/api/auth/linkedin/callback';
 
+    // Safe diagnostic logging
+    Logger.log(JSON.stringify({
+      linkedInClientIdConfigured: !!clientID,
+      linkedInClientSecretConfigured: !!clientSecret,
+      linkedInCallbackConfigured: !!callbackURL,
+      sessionSecretConfigured: !!process.env.SESSION_SECRET,
+    }), 'LinkedInStrategy');
+
     if (!clientID || !clientSecret) {
       Logger.warn('LinkedIn OAuth credentials not configured. Set LINKEDIN_CLIENT_ID and LINKEDIN_CLIENT_SECRET env vars.', 'LinkedInStrategy');
     }
@@ -20,7 +28,7 @@ export class LinkedInStrategy extends PassportStrategy(Strategy, 'linkedin') {
       clientID: clientID || 'placeholder',
       clientSecret: clientSecret || 'placeholder',
       callbackURL,
-      scope: ['r_emailaddress', 'r_liteprofile'],
+      scope: ['openid', 'profile', 'email'],
       state: true,
     });
   }

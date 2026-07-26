@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, Logger, BadRequestException } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
@@ -12,6 +13,30 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableShutdownHooks();
+
+  // Validate session secret in production
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (isProduction && !process.env.SESSION_SECRET) {
+    logger.error('SESSION_SECRET environment variable is missing. OAuth authentication will fail or be insecure.');
+    process.exit(1);
+  }
+
+  app.set('trust proxy', 1);
+
+  app.use(
+    session({
+      name: 'madar.oauth.sid',
+      secret: process.env.SESSION_SECRET || 'fallback-dev-secret-do-not-use-in-prod',
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        httpOnly: true,
+        secure: isProduction,
+        sameSite: 'lax',
+        maxAge: 10 * 60 * 1000, // 10 minutes is enough for OAuth flow
+      },
+    }),
+  );
 
   // Serve static files for uploads
   const uploadDir = process.env.UPLOAD_DIR || join(process.cwd(), 'uploads');
