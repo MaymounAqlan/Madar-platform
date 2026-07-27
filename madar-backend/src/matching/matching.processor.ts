@@ -353,7 +353,7 @@ export class MatchingProcessor {
       jobProjectsHint: (job as any).aiAnalysis?.keywords || [],
     }));
 
-    const response = await fetch(`${aiServiceUrl}/api/ai/matching/batch-calculate`, {
+    const response = await fetch(`${aiServiceUrl}/api/ai/matching/batch`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ matches }),
