@@ -14,6 +14,7 @@ import { Student, StudentDocument } from '../students/schemas/student.schema';
 import { Job, JobDocument } from '../jobs/schemas/job.schema';
 import { Skill, SkillDocument } from '../skills/schemas/skill.schema';
 import { Application, ApplicationDocument } from '../applications/schemas/application.schema';
+import { MatchResult, MatchResultDocument } from './match-results/schemas/match-result.schema';
 
 interface MatchResult {
   score: number;
@@ -36,6 +37,7 @@ export class MatchingService {
     @InjectModel(Job.name) private jobModel: Model<JobDocument>,
     @InjectModel(Skill.name) private skillModel: Model<SkillDocument>,
     @InjectModel(Application.name) private applicationModel: Model<ApplicationDocument>,
+    @InjectModel(MatchResult.name) private matchResultModel: Model<MatchResultDocument>,
     @InjectQueue('ai-matching') private readonly matchingQueue: Queue,
   ) {}
 
@@ -243,6 +245,25 @@ export class MatchingService {
     const job = await this.jobModel.findById(new Types.ObjectId(jobId)).lean();
     if (!job) throw new NotFoundException('Job not found');
 
+    // First try to get actual AI match results
+    const aiResults = await this.matchResultModel
+      .find({ job: new Types.ObjectId(jobId) })
+      .sort({ overallScore: -1 })
+      .limit(limit)
+      .populate('student')
+      .lean();
+
+    if (aiResults && aiResults.length > 0) {
+      return aiResults.map(r => ({
+        student: r.student,
+        matchScore: r.overallScore,
+        skillMatches: r.skillMatches?.length || 0,
+        factorBreakdown: r.factorBreakdown,
+        explanation: r.explanation,
+      }));
+    }
+
+    // Fallback to naive calculation if AI matching hasn't completed yet
     const requiredSkillNames = ((job as any).requirements?.requiredSkills || []).map((s: any) => s.name.toLowerCase());
 
     const students = await this.studentModel
