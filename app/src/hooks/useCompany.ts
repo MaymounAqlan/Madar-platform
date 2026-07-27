@@ -122,9 +122,18 @@ export function useUpdateApplicationStatus() {
 }
 
 export function useForceMatchCheck() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ jobId, studentId }: { jobId: string; studentId: string }) =>
       companyApi.forceMatchCheck(jobId, studentId),
+    onSuccess: () => {
+      // The match calculation runs asynchronously via a Bull queue,
+      // so we wait a few seconds before refetching to let it complete.
+      setTimeout(() => {
+        queryClient.invalidateQueries({ queryKey: [COMPANY_KEY, 'candidates'] });
+        queryClient.invalidateQueries({ queryKey: [COMPANY_KEY, 'applications'] });
+      }, 5000);
+    },
   });
 }
 

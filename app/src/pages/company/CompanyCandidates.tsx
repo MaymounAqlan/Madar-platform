@@ -298,7 +298,7 @@ export default function CompanyCandidates() {
         jobId: targetJobId, 
         studentId: selectedCandidate.studentId || selectedCandidate.id 
       })
-      toast.success(t('تم طلب التحديث بنجاح', 'Match check requested successfully'))
+      toast.success(t('تم طلب التحديث، ستظهر النتيجة خلال ثوانٍ...', 'Match check requested — score will refresh in a few seconds...'))
     } catch {
       toast.error(t('تعذر طلب التحديث', 'Failed to request match check'))
     }
