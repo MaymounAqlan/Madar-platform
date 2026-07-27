@@ -296,7 +296,7 @@ export default function CompanyCandidates() {
     try {
       await forceMatchMutation.mutateAsync({ 
         jobId: targetJobId, 
-        studentId: selectedCandidate.studentId 
+        studentId: selectedCandidate.studentId || selectedCandidate.id 
       })
       toast.success(t('تم طلب التحديث بنجاح', 'Match check requested successfully'))
     } catch {
