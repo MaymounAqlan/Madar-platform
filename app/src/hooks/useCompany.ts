@@ -121,6 +121,13 @@ export function useUpdateApplicationStatus() {
   });
 }
 
+export function useForceMatchCheck() {
+  return useMutation({
+    mutationFn: ({ jobId, studentId }: { jobId: string; studentId: string }) =>
+      companyApi.forceMatchCheck(jobId, studentId),
+  });
+}
+
 export function useCompanyAnalytics(period?: string) {
   return useQuery({
     queryKey: [COMPANY_KEY, 'analytics', period],

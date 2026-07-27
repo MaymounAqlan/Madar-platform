@@ -83,4 +83,16 @@ export class MatchingController {
   ) {
     return this.matchingService.getTopMatchedCandidates(jobId, limit || 10);
   }
+
+  @Post('job/:jobId/student/:studentId/calculate')
+  @Roles(UserRole.COMPANY, UserRole.ADMIN, UserRole.SUPER_ADMIN)
+  @ApiOperation({ summary: 'Force match calculation between job and student' })
+  async forceMatchCalculation(
+    @Param('jobId') jobId: string,
+    @Param('studentId') studentId: string,
+    @Req() req: Request,
+  ): Promise<any> {
+    const user = (req as any).user;
+    return this.matchingService.enqueueMatchCalculation(studentId, jobId, user.sub, user.sub);
+  }
 }

@@ -178,4 +178,8 @@ export const companyApi = {
     const response = await apiClient.get<ApiResponse<CompanyAnalyticsPayload>>('/companies/analytics', { params: { period } });
     return response.data.data;
   },
+
+  async forceMatchCheck(jobId: string, studentId: string): Promise<void> {
+    await apiClient.post(`/matching/job/${jobId}/student/${studentId}/calculate`);
+  },
 };

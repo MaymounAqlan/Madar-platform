@@ -6,7 +6,7 @@ import PortalLayout from '@/components/PortalLayout'
 import ContentCard from '@/components/ContentCard'
 import MatchScoreRing from '@/components/MatchScoreRing'
 import StatusBadge from '@/components/StatusBadge'
-import { useCandidates, useCompanyApplications, useUpdateApplicationStatus } from '@/hooks/useCompany'
+import { useCandidates, useCompanyApplications, useUpdateApplicationStatus, useForceMatchCheck, useCompanyJobs } from '@/hooks/useCompany'
 import { cn } from '@/lib/utils'
 import { toast } from 'sonner'
 import {
@@ -159,7 +159,10 @@ export default function CompanyCandidates() {
   const [searchParams] = useState<Record<string, unknown>>({})
   const { data: candidatesData, isLoading } = useCandidates(searchParams)
   const { data: applicationsData, isLoading: applicationsLoading } = useCompanyApplications({ limit: 50 })
+  const { data: jobsData } = useCompanyJobs({ limit: 100 })
   const updateStatusMutation = useUpdateApplicationStatus()
+  const forceMatchMutation = useForceMatchCheck()
+  const [selectedMatchJobId, setSelectedMatchJobId] = useState<string>('')
 
   const candidates = useMemo(() => {
     const recommendedByStudent = new Map<string, any>()
@@ -209,6 +212,7 @@ export default function CompanyCandidates() {
         status,
         appliedJob: item.job?.titleAr || item.job?.title || existing.appliedJob || '',
         appliedFor: item.job?.titleAr || item.job?.title || existing.appliedFor || '',
+        jobId: item.job?.id || item.job?._id || item.jobId || existing.jobId || '',
         appliedDate: item.appliedAt || existing.appliedDate,
         coverLetter: item.coverLetter || '',
       }]
@@ -280,6 +284,23 @@ export default function CompanyCandidates() {
       toast.success(t('تم تحديث الحالة', 'Status updated successfully'))
     } catch {
       toast.error(t('فشل التحديث', 'Failed to update'))
+    }
+  }
+
+  const handleForceMatch = async () => {
+    const targetJobId = selectedMatchJobId || selectedCandidate?.jobId;
+    if (!targetJobId) {
+      toast.error(t('الرجاء اختيار وظيفة للمطابقة', 'Please select a job for matching'))
+      return
+    }
+    try {
+      await forceMatchMutation.mutateAsync({ 
+        jobId: targetJobId, 
+        studentId: selectedCandidate.studentId 
+      })
+      toast.success(t('تم طلب التحديث بنجاح', 'Match check requested successfully'))
+    } catch {
+      toast.error(t('تعذر طلب التحديث', 'Failed to request match check'))
     }
   }
 
@@ -874,6 +895,31 @@ export default function CompanyCandidates() {
                 <button className="inline-flex items-center justify-center gap-2 rounded-full border border-[#dfe1dd] bg-white px-4 py-3 text-sm font-semibold text-[#5b5e5a] transition-all hover:bg-[#f0f1ee]">
                   <Mail size={16} />
                   {t('رسالة', 'Message')}
+                </button>
+              </div>
+              <div className="mt-4 border-t border-[#dfe1dd] pt-4">
+                <div className="mb-2 text-xs font-bold text-[#828782]">
+                  {t('تحديث التوافق مع وظيفة', 'Force Match with Job')}
+                </div>
+                <select
+                  className="mb-2 w-full rounded-lg border border-[#dfe1dd] bg-white p-2 text-sm outline-none focus:border-[#9fe870]"
+                  value={selectedMatchJobId || selectedCandidate.jobId || ''}
+                  onChange={(e) => setSelectedMatchJobId(e.target.value)}
+                >
+                  <option value="">{t('اختر وظيفة...', 'Select a job...')}</option>
+                  {(jobsData?.data || []).map((job: any) => (
+                    <option key={job.id || job._id} value={job.id || job._id}>
+                      {job.titleAr || job.title}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={handleForceMatch}
+                  disabled={forceMatchMutation.isPending || (!selectedMatchJobId && !selectedCandidate.jobId)}
+                  className="flex w-full items-center justify-center gap-2 rounded-full border border-[#dfe1dd] bg-[#f8f9f7] px-4 py-2 text-sm font-bold text-[#5b5e5a] transition-all hover:bg-[#f0f1ee] disabled:opacity-50"
+                >
+                  <RefreshCw size={16} className={forceMatchMutation.isPending ? 'animate-spin' : ''} />
+                  {t('تحديث نسبة التوافق', 'Force Match Check')}
                 </button>
               </div>
             </div>
