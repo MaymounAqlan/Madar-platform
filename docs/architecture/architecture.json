@@ -1,0 +1,419 @@
+{
+  "meta": {
+    "title": "Madar Platform",
+    "version": "1.0.0",
+    "stack": [
+      "React",
+      "NestJS",
+      "FastAPI",
+      "MongoDB",
+      "Redis"
+    ],
+    "date": "2026-07-28"
+  },
+  "workspaces": [
+    {
+      "name": "Frontend (React)",
+      "path": "app/",
+      "type": "frontend",
+      "description": "User portal for students, universities, and companies."
+    },
+    {
+      "name": "Backend (NestJS)",
+      "path": "madar-backend/",
+      "type": "backend",
+      "description": "Core API gateway and business logic."
+    },
+    {
+      "name": "AI Engine (FastAPI)",
+      "path": "madar-ai/",
+      "type": "backend",
+      "description": "AI-powered job matching and CV parsing."
+    }
+  ],
+  "infrastructure": [
+    {
+      "id": "api",
+      "name": "NestJS Backend",
+      "type": "app",
+      "image": "node:20-alpine",
+      "port": 3000,
+      "description": "Core platform API"
+    },
+    {
+      "id": "ai",
+      "name": "FastAPI AI Engine",
+      "type": "app",
+      "image": "python:3.11-slim",
+      "port": 8000,
+      "description": "AI and Matching Services"
+    },
+    {
+      "id": "mongo",
+      "name": "MongoDB",
+      "type": "database",
+      "image": "mongo:6.0",
+      "port": 27017,
+      "description": "Primary document database"
+    },
+    {
+      "id": "redis",
+      "name": "Redis",
+      "type": "cache",
+      "image": "redis:alpine",
+      "port": 6379,
+      "description": "Queue management and caching"
+    }
+  ],
+  "dockerDiagram": {
+    "description": "Container topology and network interactions",
+    "nodes": [
+      {
+        "id": "api",
+        "label": "NestJS API",
+        "type": "app",
+        "port": 3000
+      },
+      {
+        "id": "ai",
+        "label": "FastAPI AI",
+        "type": "app",
+        "port": 8000
+      },
+      {
+        "id": "frontend",
+        "label": "React Frontend",
+        "type": "app",
+        "port": 80
+      },
+      {
+        "id": "mongo",
+        "label": "MongoDB",
+        "type": "database",
+        "port": 27017
+      },
+      {
+        "id": "redis",
+        "label": "Redis",
+        "type": "cache",
+        "port": 6379
+      }
+    ],
+    "edges": [
+      {
+        "from": "frontend",
+        "to": "api",
+        "label": "HTTP/REST"
+      },
+      {
+        "from": "api",
+        "to": "mongo",
+        "label": "TCP 27017 (Mongoose)"
+      },
+      {
+        "from": "api",
+        "to": "redis",
+        "label": "TCP 6379 (BullMQ)"
+      },
+      {
+        "from": "api",
+        "to": "ai",
+        "label": "HTTP/REST (Internal)"
+      },
+      {
+        "from": "ai",
+        "to": "redis",
+        "label": "TCP 6379"
+      }
+    ]
+  },
+  "systemArchitectureDiagram": {
+    "description": "High-level platform architecture showing boundaries",
+    "subgraphs": [
+      {
+        "id": "presentation",
+        "label": "Presentation Layer",
+        "nodes": [
+          {
+            "id": "ui_student",
+            "label": "Student Portal",
+            "type": "app"
+          },
+          {
+            "id": "ui_uni",
+            "label": "University Portal",
+            "type": "app"
+          },
+          {
+            "id": "ui_company",
+            "label": "Company Portal",
+            "type": "app"
+          }
+        ]
+      },
+      {
+        "id": "api_layer",
+        "label": "API Gateway Layer (NestJS)",
+        "nodes": [
+          {
+            "id": "auth_svc",
+            "label": "Auth Service",
+            "type": "app"
+          },
+          {
+            "id": "matching_svc",
+            "label": "Matching Service",
+            "type": "app"
+          },
+          {
+            "id": "job_svc",
+            "label": "Job Service",
+            "type": "app"
+          }
+        ]
+      },
+      {
+        "id": "ai_layer",
+        "label": "AI Layer (Python)",
+        "nodes": [
+          {
+            "id": "cv_parser",
+            "label": "CV Parser",
+            "type": "app"
+          },
+          {
+            "id": "matcher",
+            "label": "AI Matcher",
+            "type": "app"
+          }
+        ]
+      },
+      {
+        "id": "data_layer",
+        "label": "Data Layer",
+        "nodes": [
+          {
+            "id": "mongodb",
+            "label": "MongoDB Atlas",
+            "type": "database"
+          },
+          {
+            "id": "upstash",
+            "label": "Upstash Redis",
+            "type": "cache"
+          }
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "from": "ui_student",
+        "to": "api_layer",
+        "label": "REST API"
+      },
+      {
+        "from": "ui_uni",
+        "to": "api_layer",
+        "label": "REST API"
+      },
+      {
+        "from": "ui_company",
+        "to": "api_layer",
+        "label": "REST API"
+      },
+      {
+        "from": "api_layer",
+        "to": "mongodb",
+        "label": "Read/Write Data"
+      },
+      {
+        "from": "api_layer",
+        "to": "upstash",
+        "label": "Pub/Sub / BullMQ"
+      },
+      {
+        "from": "api_layer",
+        "to": "ai_layer",
+        "label": "REST Sync/Batch"
+      }
+    ]
+  },
+  "swaggerSchemas": {
+    "matchStatus": "Verified Parity",
+    "openapi": "3.0.0",
+    "servedAt": "/api/docs",
+    "securityScheme": "bearerAuth (JWT Bearer Token)",
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "Local server"
+      }
+    ],
+    "schemas": []
+  },
+  "modules": [
+    {
+      "id": "auth",
+      "name": "Authentication",
+      "basePath": "/api/auth",
+      "description": "User registration, login, JWT issuance, and RBAC",
+      "color": "#e11d48",
+      "icon": "\ud83d\udd12",
+      "files": [
+        "auth.controller.ts",
+        "auth.service.ts"
+      ],
+      "permissions": [],
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/api/auth/register",
+          "auth": false,
+          "permission": null,
+          "description": "Register a new user"
+        },
+        {
+          "method": "POST",
+          "path": "/api/auth/login",
+          "auth": false,
+          "permission": null,
+          "description": "Authenticate user"
+        }
+      ]
+    },
+    {
+      "id": "students",
+      "name": "Students",
+      "basePath": "/api/students",
+      "description": "Student profiles, CV uploads, and skills management",
+      "color": "#3b82f6",
+      "icon": "\ud83c\udf93",
+      "files": [
+        "students.controller.ts",
+        "students.service.ts"
+      ],
+      "permissions": [
+        "student:profile"
+      ],
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/students/profile",
+          "auth": true,
+          "permission": "student:profile",
+          "description": "Get student profile"
+        },
+        {
+          "method": "POST",
+          "path": "/api/students/cv-upload/async",
+          "auth": true,
+          "permission": "student:profile",
+          "description": "Queue CV for AI parsing"
+        }
+      ]
+    },
+    {
+      "id": "matching",
+      "name": "AI Matching",
+      "basePath": "/api/matching",
+      "description": "Orchestrates AI job matching and task queues",
+      "color": "#8b5cf6",
+      "icon": "\ud83e\udde0",
+      "files": [
+        "matching.controller.ts",
+        "matching.processor.ts"
+      ],
+      "permissions": [
+        "matching:run"
+      ],
+      "endpoints": [
+        {
+          "method": "POST",
+          "path": "/api/matching/job/:jobId/student/:studentId/calculate",
+          "auth": true,
+          "permission": "matching:run",
+          "description": "Run single match via API"
+        },
+        {
+          "method": "GET",
+          "path": "/api/matching/tasks/:taskId",
+          "auth": true,
+          "permission": null,
+          "description": "Poll background matching task status"
+        }
+      ]
+    },
+    {
+      "id": "jobs",
+      "name": "Jobs",
+      "basePath": "/api/jobs",
+      "description": "Company job listings, applications, and search",
+      "color": "#10b981",
+      "icon": "\ud83d\udcbc",
+      "files": [
+        "jobs.controller.ts",
+        "jobs.service.ts"
+      ],
+      "permissions": [
+        "jobs:create",
+        "jobs:read"
+      ],
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/jobs/search",
+          "auth": true,
+          "permission": "jobs:read",
+          "description": "Search active jobs"
+        },
+        {
+          "method": "POST",
+          "path": "/api/jobs",
+          "auth": true,
+          "permission": "jobs:create",
+          "description": "Create new job posting"
+        }
+      ]
+    },
+    {
+      "id": "reference",
+      "name": "Reference Data",
+      "basePath": "/api/reference",
+      "description": "Universities, departments, and public reference data",
+      "color": "#f59e0b",
+      "icon": "\ud83d\udcda",
+      "files": [
+        "reference.controller.ts",
+        "reference.service.ts"
+      ],
+      "permissions": [],
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/reference/universities",
+          "auth": false,
+          "permission": null,
+          "description": "List all universities"
+        },
+        {
+          "method": "GET",
+          "path": "/api/reference/departments/:universityId",
+          "auth": false,
+          "permission": null,
+          "description": "List departments for a university"
+        }
+      ]
+    }
+  ],
+  "permissions": {
+    "description": "RBAC permission catalog and role mappings.",
+    "catalog": [
+      "student:profile",
+      "jobs:create",
+      "jobs:read",
+      "matching:run"
+    ],
+    "details": []
+  },
+  "sqlQueries": []
+}
