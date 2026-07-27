@@ -177,19 +177,31 @@ export class MatchingProcessor {
       }).limit(500).lean();
 
       const results = [];
-      for (const [index, student] of students.entries()) {
+      const batchSize = 50;
+
+      for (let i = 0; i < students.length; i += batchSize) {
+        const batch = students.slice(i, i + batchSize);
         try {
-          const result = await this.callAIService(student, jobDoc, activeConfig);
-          const mapped = this.mapAiMatchResult(result, student._id.toString(), jobId, companyId);
-          mapped.metadata = {
-            ...mapped.metadata,
-            configurationVersion: String(activeConfig.version),
-          };
-          results.push(mapped);
+          const batchResult = await this.callAIBatchService(batch, jobDoc, activeConfig);
+          
+          if (batchResult.results && Array.isArray(batchResult.results)) {
+            for (const item of batchResult.results) {
+              if (item.match && !item.error) {
+                const mapped = this.mapAiMatchResult(item.match, item.studentId, jobId, companyId);
+                mapped.metadata = {
+                  ...mapped.metadata,
+                  configurationVersion: String(activeConfig.version),
+                };
+                results.push(mapped);
+              } else {
+                this.logger.warn(`AI matching failed for student ${item.studentId}: ${item.error}`);
+              }
+            }
+          }
         } catch (e: any) {
-          this.logger.warn(`Skipping student ${student._id} in batch match: ${e.message}`);
+          this.logger.error(`Batch processing failed for chunk ${i}: ${e.message}`);
         }
-        await job.progress(10 + Math.round(((index + 1) / Math.max(students.length, 1)) * 75));
+        await job.progress(10 + Math.round(((i + batch.length) / Math.max(students.length, 1)) * 75));
       }
 
       // Bulk upsert
@@ -318,6 +330,39 @@ export class MatchingProcessor {
       this.logger.error(`Recalculation job failed: ${e.message}`);
       throw e;
     }
+  }
+
+  private async callAIBatchService(students: any[], job: any, config: any): Promise<any> {
+    const aiServiceUrl = process.env.AI_SERVICE_URL || 'http://localhost:8000';
+
+    const matches = students.map(student => ({
+      studentId: student._id?.toString(),
+      jobId: job._id?.toString(),
+      studentSkills: student.skills?.map((s: any) => ({ name: s.name, level: Math.max(0, Math.min(1, Number(s.proficiency || 0) / 100)) })) || [],
+      studentEmbedding: student.embeddings?.combinedVector || [],
+      jobRequiredSkills: (job as any).requirements?.requiredSkills?.map((s: any) => ({
+        name: s.name,
+        weight: s.weight || 1.0,
+        required: true,
+        requiredLevel: ({ beginner: 0.25, intermediate: 0.5, advanced: 0.75, expert: 1 } as any)[s.level] || 0.5,
+      })) || [],
+      jobEmbedding: (job as any).aiAnalysis?.embedding || (job as any).aiAnalysis?.skillVector || [],
+      jobExperienceRequired: Number((job as any).requirements?.experience?.minYears || 0),
+      studentExperienceYears: this.calculateExperienceYears(student.experiences || []),
+      studentProjects: (student.projects || []).map((project: any) => [project.title, project.description, ...(project.technologies || [])].filter(Boolean).join(' ')),
+      jobProjectsHint: (job as any).aiAnalysis?.keywords || [],
+    }));
+
+    const response = await fetch(`${aiServiceUrl}/api/ai/matching/batch-calculate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ matches }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`AI batch service returned ${response.status}`);
+    }
+    return response.json();
   }
 
   private async callAIService(student: any, job: any, config: any): Promise<any> {
