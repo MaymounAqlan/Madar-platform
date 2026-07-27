@@ -14,9 +14,9 @@ import { Student, StudentDocument } from '../students/schemas/student.schema';
 import { Job, JobDocument } from '../jobs/schemas/job.schema';
 import { Skill, SkillDocument } from '../skills/schemas/skill.schema';
 import { Application, ApplicationDocument } from '../applications/schemas/application.schema';
-import { MatchResult, MatchResultDocument } from './match-results/schemas/match-result.schema';
+import { MatchResult as MatchResultModel, MatchResultDocument } from './match-results/schemas/match-result.schema';
 
-interface MatchResult {
+interface MatchCalculationResult {
   score: number;
   skillMatches: Array<{
     skill: string;
@@ -37,7 +37,7 @@ export class MatchingService {
     @InjectModel(Job.name) private jobModel: Model<JobDocument>,
     @InjectModel(Skill.name) private skillModel: Model<SkillDocument>,
     @InjectModel(Application.name) private applicationModel: Model<ApplicationDocument>,
-    @InjectModel(MatchResult.name) private matchResultModel: Model<MatchResultDocument>,
+    @InjectModel(MatchResultModel.name) private matchResultModel: Model<MatchResultDocument>,
     @InjectQueue('ai-matching') private readonly matchingQueue: Queue,
   ) {}
 
@@ -151,7 +151,7 @@ export class MatchingService {
     }
   }
 
-  async calculateMatchScore(jobId: string, studentId: string): Promise<MatchResult> {
+  async calculateMatchScore(jobId: string, studentId: string): Promise<MatchCalculationResult> {
     const [job, student] = await Promise.all([
       this.jobModel.findById(new Types.ObjectId(jobId)).lean(),
       this.studentModel.findOne({ $or: [{ _id: new Types.ObjectId(studentId) }, { userId: new Types.ObjectId(studentId) }] }).lean(),
@@ -165,7 +165,7 @@ export class MatchingService {
     );
     const requiredSkills = (job as any).requirements?.requiredSkills || [];
 
-    const skillMatches: MatchResult['skillMatches'] = [];
+    const skillMatches: MatchCalculationResult['skillMatches'] = [];
     const missingSkills: string[] = [];
     let totalWeightedScore = 0;
     let totalWeight = 0;

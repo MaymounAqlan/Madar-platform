@@ -7,7 +7,7 @@ describe('MatchingService AI queue', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new MatchingService({} as any, {} as any, {} as any, {} as any, queue);
+    service = new MatchingService({} as any, {} as any, {} as any, {} as any, {} as any, queue);
   });
 
   it('uses a stable idempotency key and retry policy for recommendation tasks', async () => {
