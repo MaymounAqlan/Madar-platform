@@ -338,17 +338,20 @@ export class MatchingProcessor {
     const matches = students.map(student => ({
       studentId: student._id?.toString(),
       jobId: job._id?.toString(),
-      studentSkills: student.skills?.map((s: any) => ({ name: s.name, level: Math.max(0, Math.min(1, Number(s.proficiency || 0) / 100)) })) || [],
-      studentEmbedding: student.embeddings?.combinedVector || [],
+      studentSkills: student.skills?.map((s: any) => ({ 
+        name: s.skillId?.nameAr || s.skillId?.nameEn || s.name || s.skillId?.toString() || 'Unknown', 
+        level: ({ beginner: 0.25, intermediate: 0.5, advanced: 0.75, expert: 1 } as any)[s.level] || 0.5 
+      })) || [],
+      studentEmbedding: student.embeddings?.combinedVector || student.cvAnalysis?.skillVector || [],
       jobRequiredSkills: (job as any).requirements?.requiredSkills?.map((s: any) => ({
-        name: s.name,
+        name: s.skill?.nameAr || s.skill?.nameEn || s.name || s.skillId?.toString() || 'Unknown',
         weight: s.weight || 1.0,
         required: true,
         requiredLevel: ({ beginner: 0.25, intermediate: 0.5, advanced: 0.75, expert: 1 } as any)[s.level] || 0.5,
       })) || [],
       jobEmbedding: (job as any).aiAnalysis?.embedding || (job as any).aiAnalysis?.skillVector || [],
-      jobExperienceRequired: Number((job as any).requirements?.experience?.minYears || 0),
-      studentExperienceYears: this.calculateExperienceYears(student.experiences || []),
+      jobExperienceRequired: Math.floor(Number((job as any).requirements?.experience?.minYears || 0)) || 0,
+      studentExperienceYears: Math.floor(this.calculateExperienceYears(student.experiences || [])) || 0,
       studentProjects: (student.projects || []).map((project: any) => [project.title, project.description, ...(project.technologies || [])].filter(Boolean).join(' ')),
       jobProjectsHint: (job as any).aiAnalysis?.keywords || [],
     }));
@@ -374,17 +377,20 @@ export class MatchingProcessor {
       body: JSON.stringify({
         studentId: student._id?.toString(),
         jobId: job._id?.toString(),
-        studentSkills: student.skills?.map((s: any) => ({ name: s.name, level: Math.max(0, Math.min(1, Number(s.proficiency || 0) / 100)) })) || [],
-        studentEmbedding: student.embeddings?.combinedVector || [],
+        studentSkills: student.skills?.map((s: any) => ({ 
+          name: s.skillId?.nameAr || s.skillId?.nameEn || s.name || s.skillId?.toString() || 'Unknown', 
+          level: ({ beginner: 0.25, intermediate: 0.5, advanced: 0.75, expert: 1 } as any)[s.level] || 0.5 
+        })) || [],
+        studentEmbedding: student.embeddings?.combinedVector || student.cvAnalysis?.skillVector || [],
         jobRequiredSkills: (job as any).requirements?.requiredSkills?.map((s: any) => ({
-          name: s.name,
+          name: s.skill?.nameAr || s.skill?.nameEn || s.name || s.skillId?.toString() || 'Unknown',
           weight: s.weight || 1.0,
           required: true,
           requiredLevel: ({ beginner: 0.25, intermediate: 0.5, advanced: 0.75, expert: 1 } as any)[s.level] || 0.5,
         })) || [],
         jobEmbedding: (job as any).aiAnalysis?.embedding || (job as any).aiAnalysis?.skillVector || [],
-        jobExperienceRequired: Number((job as any).requirements?.experience?.minYears || 0),
-        studentExperienceYears: this.calculateExperienceYears(student.experiences || []),
+        jobExperienceRequired: Math.floor(Number((job as any).requirements?.experience?.minYears || 0)) || 0,
+        studentExperienceYears: Math.floor(this.calculateExperienceYears(student.experiences || [])) || 0,
         studentProjects: (student.projects || []).map((project: any) => [project.title, project.description, ...(project.technologies || [])].filter(Boolean).join(' ')),
         jobProjectsHint: (job as any).aiAnalysis?.keywords || [],
         weights: {

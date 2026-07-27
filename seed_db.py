@@ -28,6 +28,16 @@ DEFAULT_PASSWORD = b"password123"
 # ---------------------------------------------------------
 # Yemeni Dummy Data
 # ---------------------------------------------------------
+YEMENI_MALE_NAMES = ["أحمد", "محمد", "علي", "صالح", "عبدالله", "عبدالرحمن", "طارق", "حمزة", "يوسف", "ماجد", "وليد", "قاسم", "خالد", "حسن", "حسين"]
+YEMENI_FEMALE_NAMES = ["فاطمة", "مريم", "سارة", "نورة", "أروى", "بلقيس", "خديجة", "عائشة", "هند", "أمل", "ياسمين"]
+YEMENI_LAST_NAMES = ["الأحمر", "المخلافي", "الحوثي", "العولقي", "الصايدي", "السقاف", "الشامي", "الآنسي", "الشرجبي", "الزنداني", "العواضي", "الكبسي", "المتوكل"]
+
+def get_yemeni_name():
+    is_male = random.choice([True, False])
+    first = random.choice(YEMENI_MALE_NAMES) if is_male else random.choice(YEMENI_FEMALE_NAMES)
+    last = random.choice(YEMENI_LAST_NAMES)
+    return first, last, is_male
+
 YEMENI_UNIVERSITIES = [
     {"nameEn": "Sana'a University", "nameAr": "جامعة صنعاء", "city": "Sana'a"},
     {"nameEn": "Aden University", "nameAr": "جامعة عدن", "city": "Aden"},
@@ -89,29 +99,50 @@ def seed_database(uri: str):
     coords_coll = db['collegecoordinators']
     comps_coll = db['companies']
     students_coll = db['students']
+    jobs_coll = db['jobs']
+    apps_coll = db['applications']
+    skills_coll = db['skills']
+    academic_progs_coll = db['academicprograms']
+    courses_coll = db['courses']
+    study_plans_coll = db['studyplans']
+
+    collections = [
+        users_coll, univs_coll, colleges_coll, depts_coll, coords_coll, comps_coll, students_coll,
+        jobs_coll, apps_coll, skills_coll, academic_progs_coll, courses_coll, study_plans_coll,
+        db['matchresults'], db['roles'], db['permissions']
+    ]
 
     print("Clearing old data (DANGER: Removing all previous data as requested)...")
-    users_coll.delete_many({})
-    univs_coll.delete_many({})
-    colleges_coll.delete_many({})
-    depts_coll.delete_many({})
-    coords_coll.delete_many({})
-    comps_coll.delete_many({})
-    students_coll.delete_many({})
-    # also remove match results just in case
-    db['matchresults'].delete_many({})
-    db['jobs'].delete_many({})
+    for c in collections:
+        c.delete_many({})
+
+    # Generate global skills
+    print("Inserting Skills...")
+    skill_names = ["Python", "JavaScript", "TypeScript", "React", "Node.js", "MongoDB", "Data Analysis", "Project Management", "Accounting", "Marketing"]
+    skill_docs = []
+    for s in skill_names:
+        doc = {
+            "name": s,
+            "category": "Technical",
+            "type": "hard_skill",
+            "status": "active",
+            "createdAt": datetime.datetime.now(datetime.timezone.utc),
+            "updatedAt": datetime.datetime.now(datetime.timezone.utc)
+        }
+        skill_id = skills_coll.insert_one(doc).inserted_id
+        skill_docs.append({"_id": skill_id, "name": s})
 
     print("Inserting Universities, Colleges, Departments, and Supervisors...")
-    
+    department_ids = []
     for u in YEMENI_UNIVERSITIES:
         # 1. Create Main University Admin User
+        admin_first_ar, admin_last_ar, _ = get_yemeni_name()
         email = f"admin@{u['nameEn'].lower().replace(' ', '').replace('-', '').replace('\'', '')}.edu.ye"
         user_doc = {
             "firstName": fake_en.first_name(),
-            "firstNameAr": fake.first_name(),
+            "firstNameAr": admin_first_ar,
             "lastName": fake_en.last_name(),
-            "lastNameAr": fake.last_name(),
+            "lastNameAr": admin_last_ar,
             "email": email,
             "password": default_hash,
             "userType": "university",
@@ -143,13 +174,14 @@ def seed_database(uri: str):
                 "website": f"www.{u['nameEn'].lower().replace(' ', '').replace('\'', '')}.edu.ye"
             },
             "status": "active",
+            "isActive": True,
             "createdAt": datetime.datetime.now(datetime.timezone.utc),
             "updatedAt": datetime.datetime.now(datetime.timezone.utc)
         }
         univ_id = univs_coll.insert_one(univ_doc).inserted_id
         
         users_coll.update_one({"_id": user_id}, {"$set": {"profileId": univ_id}})
-        print(f"  ✅ University: {u['nameEn']} | Admin Email: {email}")
+        print(f"  ✅ University: {u['nameAr']} | Admin: {email}")
 
         # 3. Create Colleges and Departments
         for col in COLLEGES_AND_DEPARTMENTS:
@@ -161,7 +193,7 @@ def seed_database(uri: str):
                 "institutionType": "university_college",
                 "code": f"COL-{random.randint(1000, 9999)}",
                 "established": random.randint(1970, 2010),
-                "dean": fake_en.name(),
+                "dean": get_yemeni_name()[0] + " " + get_yemeni_name()[1],
                 "isActive": True,
                 "createdAt": datetime.datetime.now(datetime.timezone.utc),
                 "updatedAt": datetime.datetime.now(datetime.timezone.utc)
@@ -169,10 +201,13 @@ def seed_database(uri: str):
             col_id = colleges_coll.insert_one(col_doc).inserted_id
             
             # Create a Supervisor/Coordinator User for this College
+            coord_first_ar, coord_last_ar, _ = get_yemeni_name()
             coord_email = f"coord_{str(col_id)[-8:]}@{u['nameEn'].lower().replace(' ', '').replace('\'', '')}.edu.ye"
             coord_user = {
                 "firstName": fake_en.first_name(),
+                "firstNameAr": coord_first_ar,
                 "lastName": fake_en.last_name(),
+                "lastNameAr": coord_last_ar,
                 "email": coord_email,
                 "password": default_hash,
                 "userType": "university",
@@ -207,20 +242,59 @@ def seed_database(uri: str):
                     "nameAr": dept['nameAr'],
                     "nameEn": dept['nameEn'],
                     "code": f"DEP-{random.randint(1000, 9999)}",
-                    "head": fake_en.name(),
+                    "head": get_yemeni_name()[0] + " " + get_yemeni_name()[1],
                     "specializations": dept['specializations'],
                     "isActive": True,
                     "createdAt": datetime.datetime.now(datetime.timezone.utc),
                     "updatedAt": datetime.datetime.now(datetime.timezone.utc)
                 }
-                depts_coll.insert_one(dept_doc)
+                dept_id = depts_coll.insert_one(dept_doc).inserted_id
+                department_ids.append({
+                    "univId": univ_id, "univName": u['nameEn'],
+                    "colId": col_id, "colName": col['nameEn'],
+                    "deptId": dept_id, "deptName": dept['nameEn']
+                })
+                
+                # Mock Academic Program & Course for each department
+                prog_id = academic_progs_coll.insert_one({
+                    "universityId": univ_id,
+                    "collegeId": col_id,
+                    "departmentId": dept_id,
+                    "nameEn": f"BSc {dept['nameEn']}",
+                    "nameAr": f"بكالوريوس {dept['nameAr']}",
+                    "slug": f"bsc-{dept['nameEn'].lower().replace(' ', '-')}-{random.randint(100, 999)}",
+                    "degreeType": "bachelor",
+                    "status": "active",
+                    "isActive": True,
+                    "createdAt": datetime.datetime.now(datetime.timezone.utc),
+                    "updatedAt": datetime.datetime.now(datetime.timezone.utc)
+                }).inserted_id
+                
+                course_id = courses_coll.insert_one({
+                    "universityId": univ_id,
+                    "collegeId": col_id,
+                    "departmentId": dept_id,
+                    "code": f"CRS-{random.randint(100, 999)}",
+                    "name": f"Intro to {dept['nameEn']}",
+                    "nameAr": f"مقدمة في {dept['nameAr']}",
+                    "credits": 3,
+                    "level": 1,
+                    "status": "active",
+                    "createdAt": datetime.datetime.now(datetime.timezone.utc),
+                    "updatedAt": datetime.datetime.now(datetime.timezone.utc)
+                }).inserted_id
 
-    print("Inserting Companies...")
+    print("Inserting Companies & Jobs...")
+    company_ids = []
+    job_ids = []
     for c in YEMENI_COMPANIES:
+        hr_first_ar, hr_last_ar, _ = get_yemeni_name()
         email = f"hr@{c['nameEn'].lower().replace(' ', '').replace('-', '')}.com"
         user_doc = {
             "firstName": fake_en.first_name(),
+            "firstNameAr": hr_first_ar,
             "lastName": fake_en.last_name(),
+            "lastNameAr": hr_last_ar,
             "email": email,
             "password": default_hash,
             "userType": "company",
@@ -236,6 +310,7 @@ def seed_database(uri: str):
             "userId": user_id,
             "profile": {
                 "name": c['nameEn'],
+                "legalName": c['nameAr'],
                 "industry": c['industry'],
                 "verified": True,
                 "verificationStatus": "verified"
@@ -245,16 +320,48 @@ def seed_database(uri: str):
             "updatedAt": datetime.datetime.now(datetime.timezone.utc)
         }
         comp_id = comps_coll.insert_one(comp_doc).inserted_id
+        company_ids.append(comp_id)
         users_coll.update_one({"_id": user_id}, {"$set": {"profileId": comp_id}})
-        print(f"  ✅ Company: {c['nameEn']} | HR Email: {email}")
+        print(f"  ✅ Company: {c['nameAr']} | HR Email: {email}")
 
-    print("Inserting Students...")
-    skill_pool = ["Python", "JavaScript", "TypeScript", "React", "Node.js", "MongoDB", "Data Analysis"]
-    for i in range(15):
-        email = fake_en.email()
+        # Create 2 dummy jobs per company
+        for _ in range(2):
+            job_title = f"{random.choice(['Senior', 'Junior', 'Lead'])} {random.choice(['Developer', 'Engineer', 'Analyst', 'Manager'])}"
+            job_doc = {
+                "companyId": comp_id,
+                "postedBy": user_id,
+                "title": job_title,
+                "summary": "We are looking for a talented professional.",
+                "description": "Full description of the job...",
+                "type": "full_time",
+                "level": "mid",
+                "category": c['industry'],
+                "requirements": {
+                    "experience": {"minYears": 2, "maxYears": 5, "level": "mid"},
+                    "education": {"minimumLevel": "bachelor"},
+                    "requiredSkills": [
+                        {"skillId": random.choice(skill_docs)["_id"], "name": random.choice(skill_docs)["name"], "level": "intermediate", "weight": 1.0}
+                        for _ in range(3)
+                    ]
+                },
+                "location": {"city": c['city'], "country": "Yemen", "type": "hybrid", "isRelocatable": False},
+                "status": "active",
+                "createdAt": datetime.datetime.now(datetime.timezone.utc),
+                "updatedAt": datetime.datetime.now(datetime.timezone.utc)
+            }
+            j_id = jobs_coll.insert_one(job_doc).inserted_id
+            job_ids.append(j_id)
+
+    print("Inserting Students & Applications...")
+    student_ids = []
+    for i in range(25):
+        first_ar, last_ar, is_male = get_yemeni_name()
+        email = f"student{i}@example.com"
         user_doc = {
-            "firstName": fake_en.first_name(),
+            "firstName": fake_en.first_name_male() if is_male else fake_en.first_name_female(),
             "lastName": fake_en.last_name(),
+            "firstNameAr": first_ar,
+            "lastNameAr": last_ar,
             "email": email,
             "password": default_hash,
             "userType": "student",
@@ -266,27 +373,45 @@ def seed_database(uri: str):
         }
         user_id = users_coll.insert_one(user_doc).inserted_id
         
+        # Assign to random department
+        dept = random.choice(department_ids)
+        
         student_doc = {
             "userId": user_id,
             "personalInfo": {
                 "firstName": user_doc["firstName"],
                 "lastName": user_doc["lastName"],
+                "firstNameAr": first_ar,
+                "lastNameAr": last_ar,
             },
             "academicInfo": {
-                "universityName": "Sana'a University",
-                "collegeName": "College of Computer Science",
-                "departmentName": "Software Engineering",
+                "universityName": dept["univName"],
+                "collegeName": dept["colName"],
+                "departmentName": dept["deptName"],
             },
-            "skills": [{"name": s, "proficiency": "intermediate"} for s in random.sample(skill_pool, 4)],
+            "skills": [{"name": s["name"], "proficiency": "intermediate"} for s in random.sample(skill_docs, 4)],
             "privacySettings": {"allowCompanySearch": True},
             "createdAt": datetime.datetime.now(datetime.timezone.utc),
             "updatedAt": datetime.datetime.now(datetime.timezone.utc),
         }
         student_id = students_coll.insert_one(student_doc).inserted_id
+        student_ids.append({"studentId": student_id, "userId": user_id})
         users_coll.update_one({"_id": user_id}, {"$set": {"profileId": student_id}})
 
+        # Create 1-2 random applications for each student
+        for j_id in random.sample(job_ids, random.randint(1, 2)):
+            job = jobs_coll.find_one({"_id": j_id})
+            apps_coll.insert_one({
+                "studentId": student_id,
+                "jobId": j_id,
+                "companyId": job["companyId"],
+                "status": random.choice(["applied", "screening", "shortlisted", "rejected"]),
+                "createdAt": datetime.datetime.now(datetime.timezone.utc),
+                "updatedAt": datetime.datetime.now(datetime.timezone.utc)
+            })
+
     print("\n" + "="*60)
-    print("Done! Database successfully populated.")
+    print("Done! Database successfully populated with comprehensive Yemeni dummy data.")
     print("Default password for all users is: password123")
     print("="*60)
 
