@@ -18,8 +18,7 @@ export const studentApi = {
     formData.append('file', file);
     const response = await apiClient.post<ApiResponse<StudentProfile>>(
       '/students/avatar',
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } },
+      formData
     );
     return response.data.data;
   },
@@ -29,8 +28,7 @@ export const studentApi = {
     formData.append('file', file);
     const response = await apiClient.post<ApiResponse<StudentProfile>>(
       '/students/cover-image',
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } },
+      formData
     );
     return response.data.data;
   },
@@ -40,8 +38,7 @@ export const studentApi = {
     formData.append('file', file);
     const response = await apiClient.post<ApiResponse<{ taskId: string; status: string }>>(
       '/students/cv-upload/async',
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
+      formData
     );
     const taskId = response.data.data.taskId;
     // The first CV analysis can include lazy model loading and queue retries.
