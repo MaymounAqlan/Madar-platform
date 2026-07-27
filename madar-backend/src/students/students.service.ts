@@ -1469,152 +1469,157 @@ export class StudentsService {
       : [];
     const companyMap = new Map(companies.map((company: any) => [company._id.toString(), company]));
 
-    const studentEmbedding = await this.ensureStudentEmbedding(student);
-    const jobsForAi = await Promise.all(
-      jobs.map(async (job: any) => {
-        const company = job.companyId ? companyMap.get(job.companyId.toString()) : null;
-        return {
-          jobId: job._id.toString(),
-          title: job.title,
-          company: this.firstText(company?.profile?.name, job.companyName),
-          embedding: await this.ensureJobEmbedding(job),
-          requiredSkills: this.extractJobSkills(job).map((skill: any) => ({
-            name: skill.name,
-            weight: this.normalizeJobSkillWeight(skill.weight),
-            required: true,
-            requiredLevel: this.normalizeStudentSkillLevel(skill.level || 80),
-          })),
-          experienceRequired: job.requirements?.experience?.minYears || 0,
-          location: this.formatJobLocation(job.location),
-          jobType: job.type,
-        };
-      }),
-    );
-
-    const recommendationsResponse = await this.postToAi('/api/ai/recommendations/jobs', {
-      studentId: student._id.toString(),
-      studentEmbedding,
-      studentSkills: (student.skills || []).map((skill: any) => ({
-        name: skill.name,
-        level: this.normalizeStudentSkillLevel(skill.proficiency),
-      })),
-      studentExperienceYears: this.calculateStudentExperienceYears(student.experiences || []),
-      studentProjects: (student.projects || []).map((project: any) => project.title || project.description || '').filter(Boolean),
-      jobs: jobsForAi,
-      limit: 20,
-      minScore: 0,
-    });
-
-    const recommendations = recommendationsResponse?.recommendations || [];
-
-    await this.matchResultModel.deleteMany({ student: student._id });
-    await this.skillGapModel.deleteMany({ student: student._id });
-
-    for (const recommendation of recommendations) {
-      const job = jobs.find((item: any) => item._id.toString() === recommendation.jobId);
-      if (!job) continue;
-      const company = job.companyId ? companyMap.get(job.companyId.toString()) : null;
-      const fallbackMissingSkills = this.calculateFallbackMissingSkills(student.skills || [], job);
-      const missingSkills = (recommendation.missingSkills || []).length
-        ? recommendation.missingSkills
-        : fallbackMissingSkills;
-      const matchingSkills = (recommendation.matchingSkills || []).length
-        ? recommendation.matchingSkills
-        : this.extractMatchingSkills(student.skills || [], job);
-
-      await this.matchResultModel.create({
-        student: student._id,
-        job: job._id,
-        company: job.companyId,
-        overallScore: recommendation.matchScore,
-        skillScore: recommendation.breakdown?.skillsMatch?.score || 0,
-        experienceScore: recommendation.breakdown?.experienceMatch?.score || 0,
-        semanticScore: recommendation.semanticSimilarity || recommendation.breakdown?.semanticMatch?.score || 0,
-        factorBreakdown: recommendation.breakdown || {},
-        skillMatches: matchingSkills.map((skillName: string) => ({ name: skillName })),
-        missingSkills: missingSkills.map((skillName: string) => ({ name: skillName })),
-        recommendations: recommendation.recommendation ? [recommendation.recommendation] : [],
-        recommendation: {
-          reasoning: recommendation.explanation?.summary || recommendation.recommendation || '',
-          actions: recommendation.explanation?.improvementActions || missingSkills,
-          strengths: recommendation.explanation?.strengths || recommendation.matchReasons || [],
-          weaknesses: recommendation.explanation?.weaknesses || recommendation.riskFactors || [],
-        },
-        acceptanceProbability: recommendation.acceptanceProbability || { score: 0, method: 'insufficient_data' },
-        mandatorySkillsPenalty: recommendation.breakdown?.mandatorySkillsPenalty || 0,
-        modelVersion: recommendation.modelVersion || null,
-        scores: {
-          overall: recommendation.matchScore || 0,
-          skill: recommendation.breakdown?.skillsMatch?.score || 0,
-          experience: recommendation.breakdown?.experienceMatch?.score || 0,
-          education: recommendation.breakdown?.educationMatch?.score || 0,
-          semantic: recommendation.semanticSimilarity || recommendation.breakdown?.semanticMatch?.score || 0,
-        },
-        metadata: {
-          companyName: this.firstText(company?.profile?.name, recommendation.company, (job as any).companyName),
-          companyLogo: this.firstText(company?.profile?.logoUrl, (job as any).companyLogo),
-          jobTitle: job.title,
-          location: recommendation.location,
-          jobType: recommendation.jobType,
-          category: job.category,
-          professionalDomain: job.category,
-          academicDomain: job.requirements?.education?.fields?.[0] || student.academicInfo?.departmentName,
-          careerPath: job.subcategory || job.category,
-        },
-        calculatedAt: new Date(),
+    try {
+      const studentEmbedding = await this.ensureStudentEmbedding(student);
+      const jobsForAi = await Promise.all(
+        jobs.map(async (job: any) => {
+          const company = job.companyId ? companyMap.get(job.companyId.toString()) : null;
+          return {
+            jobId: job._id.toString(),
+            title: job.title,
+            company: this.firstText(company?.profile?.name, job.companyName),
+            embedding: await this.ensureJobEmbedding(job),
+            requiredSkills: this.extractJobSkills(job).map((skill: any) => ({
+              name: skill.name,
+              weight: this.normalizeJobSkillWeight(skill.weight),
+              required: true,
+              requiredLevel: this.normalizeStudentSkillLevel(skill.level || 80),
+            })),
+            experienceRequired: job.requirements?.experience?.minYears || 0,
+            location: this.formatJobLocation(job.location),
+            jobType: job.type,
+          };
+        }),
+      );
+  
+      const recommendationsResponse = await this.postToAi('/api/ai/recommendations/jobs', {
+        studentId: student._id.toString(),
+        studentEmbedding,
+        studentSkills: (student.skills || []).map((skill: any) => ({
+          name: skill.name,
+          level: this.normalizeStudentSkillLevel(skill.proficiency),
+        })),
+        studentExperienceYears: this.calculateStudentExperienceYears(student.experiences || []),
+        studentProjects: (student.projects || []).map((project: any) => project.title || project.description || '').filter(Boolean),
+        jobs: jobsForAi,
+        limit: 20,
+        minScore: 0,
       });
-
-      for (const missingSkillName of missingSkills) {
-        const existingStudentSkill = (student.skills || []).find(
-          (skill: any) => this.normalizeSkillName(skill.name) === this.normalizeSkillName(missingSkillName),
-        );
-        const skillDoc = await this.skillModel.findOne({ normalizedName: this.normalizeSkillName(missingSkillName) }).lean();
-        const aiSkillDetail = (recommendation.missingSkillDetails || []).find(
-          (detail: any) => this.normalizeSkillName(detail.name) === this.normalizeSkillName(missingSkillName),
-        );
-
-        await this.skillGapModel.create({
+  
+      const recommendations = recommendationsResponse?.recommendations || [];
+  
+      await this.matchResultModel.deleteMany({ student: student._id });
+      await this.skillGapModel.deleteMany({ student: student._id });
+  
+      for (const recommendation of recommendations) {
+        const job = jobs.find((item: any) => item._id.toString() === recommendation.jobId);
+        if (!job) continue;
+        const company = job.companyId ? companyMap.get(job.companyId.toString()) : null;
+        const fallbackMissingSkills = this.calculateFallbackMissingSkills(student.skills || [], job);
+        const missingSkills = (recommendation.missingSkills || []).length
+          ? recommendation.missingSkills
+          : fallbackMissingSkills;
+        const matchingSkills = (recommendation.matchingSkills || []).length
+          ? recommendation.matchingSkills
+          : this.extractMatchingSkills(student.skills || [], job);
+  
+        await this.matchResultModel.create({
           student: student._id,
-          skillName: missingSkillName,
-          currentLevel: existingStudentSkill?.proficiency || 0,
-          requiredLevel: 80,
-          gap: Math.max(0, 80 - (existingStudentSkill?.proficiency || 0)),
-          priority: this.deriveGapPriority(80 - (existingStudentSkill?.proficiency || 0)),
-          learningResources: (skillDoc?.learningResources || []).length
-            ? skillDoc?.learningResources
-            : (aiSkillDetail?.learningResources || []),
-          marketData: skillDoc?.marketData || {},
-          overallGapScore: Math.max(0, 80 - (existingStudentSkill?.proficiency || 0)),
-          missingSkills: [{ name: missingSkillName, importance: 80, gap: Math.max(0, 80 - (existingStudentSkill?.proficiency || 0)) }],
-          metadata: {
-            category: skillDoc?.category || 'technical',
-            recommendation: recommendation.recommendation || '',
-            jobId: recommendation.jobId,
-            jobTitle: recommendation.title,
+          job: job._id,
+          company: job.companyId,
+          overallScore: recommendation.matchScore,
+          skillScore: recommendation.breakdown?.skillsMatch?.score || 0,
+          experienceScore: recommendation.breakdown?.experienceMatch?.score || 0,
+          semanticScore: recommendation.semanticSimilarity || recommendation.breakdown?.semanticMatch?.score || 0,
+          factorBreakdown: recommendation.breakdown || {},
+          skillMatches: matchingSkills.map((skillName: string) => ({ name: skillName })),
+          missingSkills: missingSkills.map((skillName: string) => ({ name: skillName })),
+          recommendations: recommendation.recommendation ? [recommendation.recommendation] : [],
+          recommendation: {
+            reasoning: recommendation.explanation?.summary || recommendation.recommendation || '',
+            actions: recommendation.explanation?.improvementActions || missingSkills,
+            strengths: recommendation.explanation?.strengths || recommendation.matchReasons || [],
+            weaknesses: recommendation.explanation?.weaknesses || recommendation.riskFactors || [],
           },
+          acceptanceProbability: recommendation.acceptanceProbability || { score: 0, method: 'insufficient_data' },
+          mandatorySkillsPenalty: recommendation.breakdown?.mandatorySkillsPenalty || 0,
+          modelVersion: recommendation.modelVersion || null,
+          scores: {
+            overall: recommendation.matchScore || 0,
+            skill: recommendation.breakdown?.skillsMatch?.score || 0,
+            experience: recommendation.breakdown?.experienceMatch?.score || 0,
+            education: recommendation.breakdown?.educationMatch?.score || 0,
+            semantic: recommendation.semanticSimilarity || recommendation.breakdown?.semanticMatch?.score || 0,
+          },
+          metadata: {
+            companyName: this.firstText(company?.profile?.name, recommendation.company, (job as any).companyName),
+            companyLogo: this.firstText(company?.profile?.logoUrl, (job as any).companyLogo),
+            jobTitle: job.title,
+            location: recommendation.location,
+            jobType: recommendation.jobType,
+            category: job.category,
+            professionalDomain: job.category,
+            academicDomain: job.requirements?.education?.fields?.[0] || student.academicInfo?.departmentName,
+            careerPath: job.subcategory || job.category,
+          },
+          calculatedAt: new Date(),
+        });
+  
+        for (const missingSkillName of missingSkills) {
+          const existingStudentSkill = (student.skills || []).find(
+            (skill: any) => this.normalizeSkillName(skill.name) === this.normalizeSkillName(missingSkillName),
+          );
+          const skillDoc = await this.skillModel.findOne({ normalizedName: this.normalizeSkillName(missingSkillName) }).lean();
+          const aiSkillDetail = (recommendation.missingSkillDetails || []).find(
+            (detail: any) => this.normalizeSkillName(detail.name) === this.normalizeSkillName(missingSkillName),
+          );
+  
+          await this.skillGapModel.create({
+            student: student._id,
+            skillName: missingSkillName,
+            currentLevel: existingStudentSkill?.proficiency || 0,
+            requiredLevel: 80,
+            gap: Math.max(0, 80 - (existingStudentSkill?.proficiency || 0)),
+            priority: this.deriveGapPriority(80 - (existingStudentSkill?.proficiency || 0)),
+            learningResources: (skillDoc?.learningResources || []).length
+              ? skillDoc?.learningResources
+              : (aiSkillDetail?.learningResources || []),
+            marketData: skillDoc?.marketData || {},
+            overallGapScore: Math.max(0, 80 - (existingStudentSkill?.proficiency || 0)),
+            missingSkills: [{ name: missingSkillName, importance: 80, gap: Math.max(0, 80 - (existingStudentSkill?.proficiency || 0)) }],
+            metadata: {
+              category: skillDoc?.category || 'technical',
+              recommendation: recommendation.recommendation || '',
+              jobId: recommendation.jobId,
+              jobTitle: recommendation.title,
+            },
+          });
+        }
+      }
+  
+      if (recommendations.length > 0) {
+        const topRecommendation = recommendations[0];
+        await this.notificationModel.create({
+          userId: student.userId,
+          type: 'match',
+          title: 'New recommendation generated',
+          titleAr: 'تم إنشاء توصية جديدة',
+          message: `Your top match is ${topRecommendation.title} with a score of ${topRecommendation.matchScore}%.`,
+          messageAr: `أعلى تطابق لديك هو ${topRecommendation.title} بنسبة ${topRecommendation.matchScore}%.`,
+          actionUrl: `/student/recommendations?jobId=${encodeURIComponent(String(topRecommendation.jobId))}`,
+          data: {
+            topJobId: topRecommendation.jobId,
+            score: topRecommendation.matchScore,
+          },
+          read: false,
         });
       }
+  
+      return this.matchResultModel.find({ student: student._id }).sort({ overallScore: -1 }).lean();
+    } catch (error) {
+      this.logger.error(`AI Recommendation failed for student ${student._id}: ${error.message}`);
+      return [];
     }
-
-    if (recommendations.length > 0) {
-      const topRecommendation = recommendations[0];
-      await this.notificationModel.create({
-        userId: student.userId,
-        type: 'match',
-        title: 'New recommendation generated',
-        titleAr: 'تم إنشاء توصية جديدة',
-        message: `Your top match is ${topRecommendation.title} with a score of ${topRecommendation.matchScore}%.`,
-        messageAr: `أعلى تطابق لديك هو ${topRecommendation.title} بنسبة ${topRecommendation.matchScore}%.`,
-        actionUrl: `/student/recommendations?jobId=${encodeURIComponent(String(topRecommendation.jobId))}`,
-        data: {
-          topJobId: topRecommendation.jobId,
-          score: topRecommendation.matchScore,
-        },
-        read: false,
-      });
-    }
-
-    return this.matchResultModel.find({ student: student._id }).sort({ overallScore: -1 }).lean();
   }
 
   private async ensureStudentEmbedding(student: any): Promise<number[]> {
