@@ -207,8 +207,8 @@ export default function CompanyCandidates() {
         gpa: item.student?.gpa ?? existing.gpa,
         skills: applicationSkills,
         readinessScore: item.student?.readinessScore ?? existing.readinessScore ?? 0,
-        matchScore: item.matchScore || item.matchSnapshot?.matchScore || existing.matchScore || 0,
-        acceptanceProbability: item.acceptanceProbability ?? existing.acceptanceProbability ?? 0,
+        matchScore: Math.round(item.matchScore || item.matchSnapshot?.matchScore || existing.matchScore || 0),
+        acceptanceProbability: Math.round((item.acceptanceProbability ?? existing.acceptanceProbability ?? 0) * 10) / 10,
         status,
         appliedJob: item.job?.titleAr || item.job?.title || existing.appliedJob || '',
         appliedFor: item.job?.titleAr || item.job?.title || existing.appliedFor || '',
@@ -551,7 +551,20 @@ export default function CompanyCandidates() {
                         <p className="text-xs text-[#5b5e5a]">{c.major || c.department || c.academicLevel}</p>
                       </div>
                     </div>
-                    <MatchScoreRing score={c.matchScore ?? 0} size={56} strokeWidth={3} />
+                    <MatchScoreRing score={Math.round(c.matchScore ?? 0)} size={56} strokeWidth={3} />
+                  </div>
+                  {/* Job name tag */}
+                  <div className="mt-3 flex items-center gap-1.5">
+                    <Briefcase size={13} className="text-[#828782] flex-shrink-0" />
+                    {(c.appliedJob || c.appliedFor) ? (
+                      <span className="inline-flex items-center rounded-full bg-[#DBEAFE] px-2.5 py-0.5 text-xs font-semibold text-[#1D4ED8]">
+                        {c.appliedJob || c.appliedFor}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full bg-[#f0f1ee] px-2.5 py-0.5 text-xs font-semibold text-[#828782]">
+                        {t('بدون طلب', 'No Application')}
+                      </span>
+                    )}
                   </div>
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {(c.skills ?? []).slice(0, 4).map((s: any, index: number) => (
@@ -565,10 +578,6 @@ export default function CompanyCandidates() {
                     <span className="flex items-center gap-1"><Award size={12} /> GPA: {c.gpa}</span>
                     <span className="flex items-center gap-1"><Briefcase size={12} /> {c.experience ?? 0} {t('سنوات', 'years')}</span>
                     {c.location && <span className="flex items-center gap-1"><MapPin size={12} /> {c.location}</span>}
-                  </div>
-                  <div className="mt-2 flex items-center gap-1 text-xs text-[#828782]">
-                    <Briefcase size={12} />
-                    {c.appliedJob ?? c.appliedFor}
                   </div>
                   <div className="mt-3 flex flex-wrap items-center gap-2">
                     <ContactIconButton href={c.email ? `mailto:${c.email}` : ''} title={t('البريد الإلكتروني', 'Email')}>
@@ -633,6 +642,7 @@ export default function CompanyCandidates() {
                   <thead>
                     <tr className="border-b border-[#dfe1dd] bg-[#f0f1ee]">
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5b5e5a]">{t('المرشح', 'Candidate')}</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5b5e5a]">{t('الوظيفة', 'Job')}</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5b5e5a]">{t('الجامعة', 'University')}</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5b5e5a]">{t('التخصص', 'Major')}</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-[#5b5e5a]">GPA</th>
@@ -660,6 +670,15 @@ export default function CompanyCandidates() {
                             <span className="text-sm font-semibold text-[#0e0f0c]">{getCandidateName(c, isRTL)}</span>
                           </div>
                         </td>
+                        <td className="px-4 py-3">
+                          {(c.appliedJob || c.appliedFor) ? (
+                            <span className="inline-flex rounded-full bg-[#DBEAFE] px-2 py-0.5 text-xs font-semibold text-[#1D4ED8] max-w-[140px] truncate">
+                              {c.appliedJob || c.appliedFor}
+                            </span>
+                          ) : (
+                            <span className="text-xs text-[#828782]">—</span>
+                          )}
+                        </td>
                         <td className="px-4 py-3 text-xs text-[#5b5e5a]">{c.university}</td>
                         <td className="px-4 py-3 text-xs text-[#5b5e5a]">{c.major}</td>
                         <td className="px-4 py-3 text-xs font-bold text-[#9fe870]">{c.gpa}</td>
@@ -670,7 +689,7 @@ export default function CompanyCandidates() {
                             (c.matchScore ?? 0) >= 60 ? 'bg-[#DBEAFE] text-[#1D4ED8]' :
                             'bg-[#FEF3C7] text-[#B45309]'
                           )}>
-                            {c.matchScore}%
+                            {Math.round(c.matchScore ?? 0)}%
                           </span>
                         </td>
                         <td className="px-4 py-3">
@@ -750,6 +769,20 @@ export default function CompanyCandidates() {
               <p className="text-sm font-semibold text-[#5b5e5a]">
                 {t('نسبة التطابق', 'Match Score')}
               </p>
+              <p className="text-xs text-[#828782]">
+                {t('احتمالية القبول', 'Acceptance')}: <span className="font-bold text-[#0e0f0c]">{selectedCandidate.acceptanceProbability ?? 0}%</span>
+              </p>
+              {(selectedCandidate.appliedJob || selectedCandidate.appliedFor) ? (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#DBEAFE] px-3 py-1 text-xs font-semibold text-[#1D4ED8]">
+                  <Briefcase size={12} />
+                  {selectedCandidate.appliedJob || selectedCandidate.appliedFor}
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f0f1ee] px-3 py-1 text-xs font-semibold text-[#828782]">
+                  <Briefcase size={12} />
+                  {t('مرشح بالذكاء الاصطناعي', 'AI Recommended')}
+                </span>
+              )}
             </div>
 
             {/* Profile Sections */}
