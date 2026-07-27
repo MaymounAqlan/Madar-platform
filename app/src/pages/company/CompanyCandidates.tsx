@@ -207,7 +207,7 @@ export default function CompanyCandidates() {
         gpa: item.student?.gpa ?? existing.gpa,
         skills: applicationSkills,
         readinessScore: item.student?.readinessScore ?? existing.readinessScore ?? 0,
-        matchScore: item.matchScore ?? existing.matchScore ?? 0,
+        matchScore: item.matchScore ?? item.matchSnapshot?.matchScore ?? existing.matchScore ?? 0,
         acceptanceProbability: item.acceptanceProbability ?? existing.acceptanceProbability ?? 0,
         status,
         appliedJob: item.job?.titleAr || item.job?.title || existing.appliedJob || '',

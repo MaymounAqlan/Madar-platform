@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { MatchResult } from './match-results/schemas/match-result.schema';
 import { Recommendation } from './recommendations/schemas/recommendation.schema';
+import { Application } from '../applications/schemas/application.schema';
 import { Student } from '../students/schemas/student.schema';
 import { Job } from '../jobs/schemas/job.schema';
 import { PlatformSettingsService } from '../platform-settings/platform-settings.service';
@@ -22,6 +23,7 @@ export class MatchingProcessor {
   constructor(
     @InjectModel(MatchResult.name) private matchResultModel: Model<MatchResult>,
     @InjectModel(Recommendation.name) private recommendationModel: Model<Recommendation>,
+    @InjectModel(Application.name) private applicationModel: Model<Application>,
     @InjectModel(Student.name) private studentModel: Model<Student>,
     @InjectModel(Job.name) private jobModel: Model<Job>,
     @InjectModel(AiEmbedding.name) private aiEmbeddingModel: Model<AiEmbedding>,
@@ -133,6 +135,20 @@ export class MatchingProcessor {
         { student: new Types.ObjectId(studentId), job: new Types.ObjectId(jobId) },
         { $set: mappedResult },
         { upsert: true, new: true },
+      );
+
+      // Update the Application document if it exists, so the frontend sees the new score
+      await this.applicationModel.findOneAndUpdate(
+        { studentId: new Types.ObjectId(studentId), jobId: new Types.ObjectId(jobId) },
+        { 
+          $set: { 
+            'matchSnapshot.matchScore': matchResult.scores?.overall || matchResult.overallScore,
+            'matchSnapshot.skillMatch': matchResult.scores?.skill || matchResult.skillScore,
+            'matchSnapshot.experienceMatch': matchResult.scores?.experience || matchResult.experienceScore,
+            'matchSnapshot.educationMatch': matchResult.scores?.education || matchResult.educationScore,
+            'matchSnapshot.calculatedAt': new Date()
+          } 
+        }
       );
 
       this.logger.log(`Match calculation completed: score=${matchResult.scores?.overall || matchResult.overallScore}`);
