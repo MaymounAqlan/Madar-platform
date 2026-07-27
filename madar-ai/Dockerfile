@@ -54,10 +54,18 @@ COPY routers/ ./routers/
 COPY services/ ./services/
 COPY utils/ ./utils/
 
-# Create non-root user for security
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser && \
+# Create non-root user for security and configure cache dir
+RUN groupadd -r appgroup && useradd -r -g appgroup -d /app appuser && \
+    mkdir -p /app/.cache/huggingface && \
     chown -R appuser:appgroup /app
+
+# Set HuggingFace cache directory
+ENV HF_HOME=/app/.cache/huggingface
+
 USER appuser
+
+# Pre-download the embedding model during build to prevent runtime download failures
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
 
 # Expose port
 EXPOSE 8000
