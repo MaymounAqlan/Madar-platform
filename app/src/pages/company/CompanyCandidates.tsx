@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import type { ReactNode } from 'react'
 import { useLanguage } from '@/hooks/useLanguage'
 import PortalLayout from '@/components/PortalLayout'
@@ -207,7 +207,7 @@ export default function CompanyCandidates() {
         gpa: item.student?.gpa ?? existing.gpa,
         skills: applicationSkills,
         readinessScore: item.student?.readinessScore ?? existing.readinessScore ?? 0,
-        matchScore: item.matchScore ?? item.matchSnapshot?.matchScore ?? existing.matchScore ?? 0,
+        matchScore: item.matchScore || item.matchSnapshot?.matchScore || existing.matchScore || 0,
         acceptanceProbability: item.acceptanceProbability ?? existing.acceptanceProbability ?? 0,
         status,
         appliedJob: item.job?.titleAr || item.job?.title || existing.appliedJob || '',
@@ -303,6 +303,18 @@ export default function CompanyCandidates() {
       toast.error(t('تعذر طلب التحديث', 'Failed to request match check'))
     }
   }
+
+  // Sync selectedCandidate with refreshed data so the panel reflects updated scores
+  useEffect(() => {
+    if (!selectedCandidate) return
+    const key = selectedCandidate.applicationId
+      ? `application:${selectedCandidate.applicationId}`
+      : selectedCandidate.id
+    const updated = candidates.find((c: any) => c.id === key || c.id === selectedCandidate.id)
+    if (updated && updated.matchScore !== selectedCandidate.matchScore) {
+      setSelectedCandidate({ ...selectedCandidate, ...updated })
+    }
+  }, [candidates]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (isLoading || applicationsLoading) return <LoadingSpinner />
 
