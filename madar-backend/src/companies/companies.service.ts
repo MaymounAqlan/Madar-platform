@@ -403,7 +403,9 @@ export class CompaniesService {
     const matchResults = await this.matchResultModel.find({
       student: { $in: studentIds.map((id: string) => new Types.ObjectId(id)) },
       company: companyObjectId,
-    }).lean();
+    })
+      .populate('job', 'title titleAr')
+      .lean();
     const applications = await this.applicationModel.find({
       studentId: { $in: studentIds.map((id: string) => new Types.ObjectId(id)) },
       companyId: companyObjectId,
@@ -492,8 +494,9 @@ export class CompaniesService {
         projects: student.projects?.length || 0,
         certifications: student.certifications?.length || 0,
         status: application ? this.toFrontendStatus(application.status) : 'new',
-        appliedJob: this.firstText((application?.jobId as any)?.title),
-        appliedFor: this.firstText((application?.jobId as any)?.title),
+        appliedJob: this.firstText((application?.jobId as any)?.title, (bestMatch?.job as any)?.title),
+        appliedFor: this.firstText((application?.jobId as any)?.title, (bestMatch?.job as any)?.title),
+        jobId: (application?.jobId as any)?._id?.toString() || (bestMatch?.job as any)?._id?.toString() || '',
         // FR-COMP-008: Recommendation reasons
         matchReasons: bestMatch ? {
           matchedSkills: this.toDisplayNames(bestMatch.skillMatches || []),
