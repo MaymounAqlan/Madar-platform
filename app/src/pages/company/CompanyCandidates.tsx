@@ -148,6 +148,7 @@ export default function CompanyCandidates() {
   // Filter states
   const [matchScoreMin, setMatchScoreMin] = useState(0)
   const [matchScoreMax, setMatchScoreMax] = useState(100)
+  const [selectedJobs, setSelectedJobs] = useState<string[]>([])
   const [selectedSkills, setSelectedSkills] = useState<string[]>([])
   const [selectedUniversities, setSelectedUniversities] = useState<string[]>([])
   const [gpaMin, setGpaMin] = useState(0)
@@ -231,9 +232,12 @@ export default function CompanyCandidates() {
     return [...applicants, ...recommendations]
   }, [applicationsData?.items, candidatesData?.data])
 
+  const allJobs = Array.from(new Set(candidates.map((c: any) => c.appliedJob || c.appliedFor).filter(Boolean)))
   const allSkills = Array.from(new Set(candidates.flatMap((c: any) => (c.skills ?? []).map(getSkillName).filter(Boolean))))
   const allUniversities = Array.from(new Set(candidates.map((c: any) => c.university ?? '').filter(Boolean)))
 
+  const toggleJob = (j: string) =>
+    setSelectedJobs((prev) => (prev.includes(j) ? prev.filter((x) => x !== j) : [...prev, j]))
   const toggleSkill = (s: string) =>
     setSelectedSkills((prev) => (prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]))
   const toggleUniversity = (u: string) =>
@@ -244,6 +248,7 @@ export default function CompanyCandidates() {
   const resetFilters = () => {
     setMatchScoreMin(0)
     setMatchScoreMax(100)
+    setSelectedJobs([])
     setSelectedSkills([])
     setSelectedUniversities([])
     setGpaMin(0)
@@ -264,6 +269,7 @@ export default function CompanyCandidates() {
         if (!nameMatch && !skillMatch && !uniMatch) return false
       }
       if ((c.matchScore ?? 0) < matchScoreMin || (c.matchScore ?? 0) > matchScoreMax) return false
+      if (selectedJobs.length && !selectedJobs.includes(c.appliedJob || c.appliedFor)) return false
       if (selectedSkills.length && !selectedSkills.some((s) => (c.skills ?? []).map(getSkillName).includes(s))) return false
       if (selectedUniversities.length && !selectedUniversities.includes(c.university)) return false
       if ((c.gpa ?? 0) < gpaMin || (c.gpa ?? 0) > gpaMax) return false
@@ -271,7 +277,7 @@ export default function CompanyCandidates() {
       if (selectedStatuses.length && !selectedStatuses.includes(c.status)) return false
       return true
     })
-  }, [search, matchScoreMin, matchScoreMax, selectedSkills, selectedUniversities, gpaMin, gpaMax, expMin, expMax, selectedStatuses, candidates])
+  }, [search, matchScoreMin, matchScoreMax, selectedJobs, selectedSkills, selectedUniversities, gpaMin, gpaMax, expMin, expMax, selectedStatuses, candidates])
 
   const handleStatusChange = async (appId: string | undefined, status: string) => {
     if (!appId) {
@@ -427,6 +433,26 @@ export default function CompanyCandidates() {
                   />
                 </div>
               </div>
+
+              {/* Jobs */}
+              {allJobs.length > 0 && (
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-[#5b5e5a]">{t('الوظيفة', 'Job')}</label>
+                  <div className="flex flex-col gap-2 max-h-[120px] overflow-auto">
+                    {allJobs.map((j) => (
+                      <label key={j as string} className="flex items-center gap-2 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={selectedJobs.includes(j as string)}
+                          onChange={() => toggleJob(j as string)}
+                          className="rounded border-[#dfe1dd] text-[#9fe870] focus:ring-[#9fe870]"
+                        />
+                        <span className="text-sm text-[#0e0f0c]">{j as string}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Skills */}
               {allSkills.length > 0 && (
