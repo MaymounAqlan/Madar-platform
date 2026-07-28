@@ -172,9 +172,39 @@ export class MatchingProcessor {
       }
 
       const activeConfig = await this.platformSettingsService.getActiveAiConfig();
-      const students = await this.studentModel.find({
-        'privacySettings.allowCompanySearch': { $ne: false },
-      }).limit(500).lean();
+      
+      let students: any[] = [];
+      const jobEmbedding = (jobDoc as any).aiAnalysis?.embedding || (jobDoc as any).aiAnalysis?.skillVector;
+      
+      if (jobEmbedding && Array.isArray(jobEmbedding) && jobEmbedding.length > 0) {
+        try {
+          this.logger.log(`Using Atlas Vector Search to pre-filter candidates for job ${jobId}`);
+          students = await this.studentModel.aggregate([
+            {
+              $vectorSearch: {
+                index: 'student_embeddings_index',
+                path: 'embeddings.combinedVector',
+                queryVector: jobEmbedding,
+                numCandidates: 1000,
+                limit: 500,
+              }
+            },
+            {
+              $match: { 'privacySettings.allowCompanySearch': { $ne: false } }
+            }
+          ]);
+        } catch (e: any) {
+          this.logger.warn(`Vector search failed, falling back to standard query: ${e.message}`);
+          students = await this.studentModel.find({
+            'privacySettings.allowCompanySearch': { $ne: false },
+          }).limit(500).lean();
+        }
+      } else {
+        this.logger.log(`No job embedding found, using standard query to fetch candidates for job ${jobId}`);
+        students = await this.studentModel.find({
+          'privacySettings.allowCompanySearch': { $ne: false },
+        }).limit(500).lean();
+      }
 
       const results = [];
       const batchSize = 50;
